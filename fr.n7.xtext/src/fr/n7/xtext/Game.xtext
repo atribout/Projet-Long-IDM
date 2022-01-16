@@ -1,0 +1,47 @@
+grammar fr.n7.xtext.Game with org.eclipse.xtext.common.Terminals
+
+generate game "http://www.n7.fr/xtext/Game"
+
+Game: 'game' name=ID
+	
+	'Knowledges' '{'
+		gameElements+=Knowledge*
+	'}'
+	
+	'Objects' '{'
+		gameElements+=Object*
+	'}'
+	
+	'NPCs' '{'
+		gameElements+=NPC*
+	'}'
+	
+	'Actions' '{'
+		gameElements+=Action*
+	'}'
+	
+	'Conditions' '{'
+		gameElements+=Condition*
+	'}'
+	
+	'Places' '{'
+		gameElements+=Place*
+	'}'
+	
+	'Paths' '{'
+		gameElements+=Path*
+	'}'
+	
+	'Player' '{'
+		gameElements+=Player
+	'}'
+	;
+	
+Knowledges:
+	name=ID
+;
+
+Objects:
+	name=ID
+;
+;
