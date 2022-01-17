@@ -2,46 +2,97 @@ grammar fr.n7.xtext.Game with org.eclipse.xtext.common.Terminals
 
 generate game "http://www.n7.fr/xtext/Game"
 
-Game: 'game' name=ID
+Jeu: 'jeu' name=ID
 	
-	'Knowledges' '{'
-		gameElements+=Knowledge*
+	'Conaissances' '{'
+		jeuElements+=Connaissance*
 	'}'
 	
-	'Objects' '{'
-		gameElements+=Object*
+	'Objets' '{'
+		jeuElements+=Objet*
 	'}'
 	
-	'NPCs' '{'
-		gameElements+=NPC*
+	'PNJs' '{'
+		jeuElements+=PNJ*
 	'}'
 	
 	'Actions' '{'
-		gameElements+=Action*
+		jeuElements+=Action*
 	'}'
 	
 	'Conditions' '{'
-		gameElements+=Condition*
+		jeuElements+=Condition*
 	'}'
 	
-	'Places' '{'
-		gameElements+=Place*
+	'Lieux' '{'
+		jeuElements+=Lieu*
 	'}'
 	
-	'Paths' '{'
-		gameElements+=Path*
+	'Chemins' '{'
+		jeuElements+=Chemin*
 	'}'
 	
-	'Player' '{'
-		gameElements+=Player
+	'Joueur' '{'
+		jeuElements+=Joueur
 	'}'
 	;
 	
-Knowledges:
-	name=ID
+Connaissance:
+	name=ID ('visible' 'si' conditionsVisibilite+=[Condition] (',' conditionsVisibilite+=[Condition])*)?
 ;
 
-Objects:
-	name=ID
+Objet:
+	'(' name=ID 'taille' taille=INT ')' '*' quantite=INT
 ;
+
+ObjetTenu:
+	objet=[Objet] '*' quantite=INT ('visible' 'si' conditionsVisibilite+=[Condition] (',' conditionsVisibilite+=[Condition])*)?
+;
+
+Condition:
+	name=ID 'est' 'joueur' 'possede' '(' (((negation?='pas')? 'objet:' objet=ObjetTenu) | ((negation?='pas')? 'connaissance:' connaissance=[Connaissance])) ')'
+;
+
+PNJ: 
+	name=ID 'situe' 'en' lieu=[Lieu] 'et' 'dialogue' '{' dialogue+=Dialogue* '}' ('visible' 'si' conditionsVisibilite+=[Condition] (',' conditionsVisibilite+=[Condition])*)?
+;
+
+Lieu:
+	name=ID 'est' type=typePlace ('contient ('
+		('PNJs:' pnjs+=PNJ (',' pnjs+=PNJ)* ';')? ('objets:' objets+=ObjetTenu (',' objets+=ObjetTenu)* ';')?
+		('connaissances:' connaissances+=[Connaissance] (',' connaissances+=[Connaissance])* ';')?
+	')')?
+;
+
+enum typePlace :
+	debut = 'debut' | fin = 'fin' | intermediaire = 'intermediaire'
+;
+
+Dialogue:
+	texte=STRING 'propose' '{' reponses+=Choix* '}' ('visible' 'si' conditionsVisibilite+=[Condition] (',' conditionsVisibilite+=[Condition])*)?
+;
+
+Choix:
+	texte=STRING ('implique' actions+=[Action] (',' actions+=[Action])*)? ('visible' 'si' conditionsVisibilite+=[Condition] (',' conditionsVisibilite+=[Condition])*)?
+;
+
+Action:
+	name=ID ('consomme' objetsConsommes+=ObjetTenu (',' objetsConsommes+=ObjetTenu)*)? ('donne' '(' ('objets:' ObjetDonnes+=ObjetTenu (',' objetsDonnes+=ObjetTenu)*)? ('connaissances:' connaissances+=[Connaissance] (',' connaissances+=[Connaissance])*)? ')')?
+;
+
+Chemin:
+	'depuis' lieu1=[Lieu] 'jusqu\'à' lieu2=[Lieu] ('implique' (actions+=[Action]) (','actions+=[Action])* )? ('ouvert' 'si' (conditionsOuverture+=[Condition]) (',' conditionsOuverture+=[Condition])*)? ('visible' 'if' (conditionsVisibilite+=[Condition]) (',' conditionsVisibilite+=[Condition])*)?
+;
+
+Conditionnel:
+	PNJ | Connaissance | ObjetTenu | Chemin | Dialogue | Choix
+;
+
+Joueur:
+	name=ID 'situe' 'en' lieu=[Lieu] 'et' 'inventaire' 'taille' taille=INT ('commence' 'avec' (inventaire+=ObjetTenu) (',' inventaire+=ObjetTenu)*)?
+	('connaissances' 'commence' 'avec' (connaissances+=[Connaissance]) (',' connaissances+=[Connaissance])*)?
+;
+
+JeuElement:
+	Joueur | Conditionnel | Condition | Lieu | Action
 ;

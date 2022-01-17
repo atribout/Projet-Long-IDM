@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ecore:EPackage xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="game" nsURI="http://www.n7.fr/xtext/Game" nsPrefix="game">
+  <eClassifiers xsi:type="ecore:EClass" name="Jeu">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="jeuElements" upperBound="-1"
+        eType="ecore:EClass http://www.eclipse.org/emf/2002/Ecore#//EObject" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Connaissance" eSuperTypes="#//Conditionnel">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Objet">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="taille" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="quantite" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ObjetTenu" eSuperTypes="#//Conditionnel">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="objet" eType="#//Objet"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="quantite" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Condition" eSuperTypes="#//JeuElement">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="negation" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="objet" eType="#//ObjetTenu"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="connaissance" eType="#//Connaissance"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="PNJ" eSuperTypes="#//Conditionnel">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="lieu" eType="#//Lieu"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="dialogue" upperBound="-1"
+        eType="#//Dialogue" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Lieu" eSuperTypes="#//JeuElement">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="type" eType="#//typePlace"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="pnjs" upperBound="-1" eType="#//PNJ"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="objets" upperBound="-1"
+        eType="#//ObjetTenu" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="connaissances" unique="false"
+        upperBound="-1" eType="#//Connaissance"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="typePlace">
+    <eLiterals name="debut" literal="debut"/>
+    <eLiterals name="fin" value="1" literal="fin"/>
+    <eLiterals name="intermediaire" value="2" literal="intermediaire"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Dialogue" eSuperTypes="#//Conditionnel">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="texte" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="reponses" upperBound="-1"
+        eType="#//Choix" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Choix" eSuperTypes="#//Conditionnel">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="texte" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="actions" unique="false"
+        upperBound="-1" eType="#//Action"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Action" eSuperTypes="#//JeuElement">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="objetsConsommes" upperBound="-1"
+        eType="#//ObjetTenu" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="ObjetDonnes" upperBound="-1"
+        eType="#//ObjetTenu" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="objetsDonnes" upperBound="-1"
+        eType="#//ObjetTenu" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="connaissances" unique="false"
+        upperBound="-1" eType="#//Connaissance"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Chemin" eSuperTypes="#//Conditionnel">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="lieu1" eType="#//Lieu"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="lieu2" eType="#//Lieu"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="actions" unique="false"
+        upperBound="-1" eType="#//Action"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="conditionsOuverture" unique="false"
+        upperBound="-1" eType="#//Condition"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Conditionnel" eSuperTypes="#//JeuElement">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="conditionsVisibilite" unique="false"
+        upperBound="-1" eType="#//Condition"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Joueur" eSuperTypes="#//JeuElement">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="lieu" eType="#//Lieu"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="taille" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="inventaire" upperBound="-1"
+        eType="#//ObjetTenu" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="connaissances" unique="false"
+        upperBound="-1" eType="#//Connaissance"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="JeuElement"/>
+</ecore:EPackage>
