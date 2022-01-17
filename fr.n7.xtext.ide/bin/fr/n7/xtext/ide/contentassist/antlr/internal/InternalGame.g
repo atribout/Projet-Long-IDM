@@ -555,9 +555,9 @@ rule__Jeu__Group__2__Impl
 	}
 :
 (
-	{ before(grammarAccess.getJeuAccess().getConaissancesKeyword_2()); }
-	'Conaissances'
-	{ after(grammarAccess.getJeuAccess().getConaissancesKeyword_2()); }
+	{ before(grammarAccess.getJeuAccess().getConnaissancesKeyword_2()); }
+	'Connaissances'
+	{ after(grammarAccess.getJeuAccess().getConnaissancesKeyword_2()); }
 )
 ;
 finally {

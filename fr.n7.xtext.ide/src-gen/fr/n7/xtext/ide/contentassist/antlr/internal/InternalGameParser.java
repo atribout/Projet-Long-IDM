@@ -22,7 +22,7 @@ import java.util.ArrayList;
 @SuppressWarnings("all")
 public class InternalGameParser extends AbstractInternalContentAssistParser {
     public static final String[] tokenNames = new String[] {
-        "<invalid>", "<EOR>", "<DOWN>", "<UP>", "RULE_ID", "RULE_INT", "RULE_STRING", "RULE_ML_COMMENT", "RULE_SL_COMMENT", "RULE_WS", "RULE_ANY_OTHER", "'debut'", "'fin'", "'intermediaire'", "'jeu'", "'Conaissances'", "'{'", "'}'", "'Objets'", "'PNJs'", "'Actions'", "'Conditions'", "'Lieux'", "'Chemins'", "'Joueur'", "'visible'", "'si'", "','", "'('", "'taille'", "')'", "'*'", "'est'", "'joueur'", "'possede'", "'objet:'", "'connaissance:'", "'situe'", "'en'", "'et'", "'dialogue'", "'contient ('", "'PNJs:'", "';'", "'objets:'", "'connaissances:'", "'propose'", "'implique'", "'consomme'", "'donne'", "'depuis'", "'jusqu\\'\\u00E0'", "'ouvert'", "'if'", "'inventaire'", "'commence'", "'avec'", "'connaissances'", "'pas'"
+        "<invalid>", "<EOR>", "<DOWN>", "<UP>", "RULE_ID", "RULE_INT", "RULE_STRING", "RULE_ML_COMMENT", "RULE_SL_COMMENT", "RULE_WS", "RULE_ANY_OTHER", "'debut'", "'fin'", "'intermediaire'", "'jeu'", "'Connaissances'", "'{'", "'}'", "'Objets'", "'PNJs'", "'Actions'", "'Conditions'", "'Lieux'", "'Chemins'", "'Joueur'", "'visible'", "'si'", "','", "'('", "'taille'", "')'", "'*'", "'est'", "'joueur'", "'possede'", "'objet:'", "'connaissance:'", "'situe'", "'en'", "'et'", "'dialogue'", "'contient ('", "'PNJs:'", "';'", "'objets:'", "'connaissances:'", "'propose'", "'implique'", "'consomme'", "'donne'", "'depuis'", "'jusqu\\'\\u00E0'", "'ouvert'", "'if'", "'inventaire'", "'commence'", "'avec'", "'connaissances'", "'pas'"
     };
     public static final int T__50=50;
     public static final int T__19=19;
@@ -1789,21 +1789,21 @@ public class InternalGameParser extends AbstractInternalContentAssistParser {
 
 
     // $ANTLR start "rule__Jeu__Group__2__Impl"
-    // InternalGame.g:552:1: rule__Jeu__Group__2__Impl : ( 'Conaissances' ) ;
+    // InternalGame.g:552:1: rule__Jeu__Group__2__Impl : ( 'Connaissances' ) ;
     public final void rule__Jeu__Group__2__Impl() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalGame.g:556:1: ( ( 'Conaissances' ) )
-            // InternalGame.g:557:1: ( 'Conaissances' )
+            // InternalGame.g:556:1: ( ( 'Connaissances' ) )
+            // InternalGame.g:557:1: ( 'Connaissances' )
             {
-            // InternalGame.g:557:1: ( 'Conaissances' )
-            // InternalGame.g:558:2: 'Conaissances'
+            // InternalGame.g:557:1: ( 'Connaissances' )
+            // InternalGame.g:558:2: 'Connaissances'
             {
-             before(grammarAccess.getJeuAccess().getConaissancesKeyword_2()); 
+             before(grammarAccess.getJeuAccess().getConnaissancesKeyword_2()); 
             match(input,15,FOLLOW_2); 
-             after(grammarAccess.getJeuAccess().getConaissancesKeyword_2()); 
+             after(grammarAccess.getJeuAccess().getConnaissancesKeyword_2()); 
 
             }
 

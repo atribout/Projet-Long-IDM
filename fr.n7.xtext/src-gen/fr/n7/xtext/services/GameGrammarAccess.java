@@ -31,7 +31,7 @@ public class GameGrammarAccess extends AbstractElementFinder.AbstractGrammarElem
 		private final Keyword cJeuKeyword_0 = (Keyword)cGroup.eContents().get(0);
 		private final Assignment cNameAssignment_1 = (Assignment)cGroup.eContents().get(1);
 		private final RuleCall cNameIDTerminalRuleCall_1_0 = (RuleCall)cNameAssignment_1.eContents().get(0);
-		private final Keyword cConaissancesKeyword_2 = (Keyword)cGroup.eContents().get(2);
+		private final Keyword cConnaissancesKeyword_2 = (Keyword)cGroup.eContents().get(2);
 		private final Keyword cLeftCurlyBracketKeyword_3 = (Keyword)cGroup.eContents().get(3);
 		private final Assignment cJeuElementsAssignment_4 = (Assignment)cGroup.eContents().get(4);
 		private final RuleCall cJeuElementsConnaissanceParserRuleCall_4_0 = (RuleCall)cJeuElementsAssignment_4.eContents().get(0);
@@ -74,7 +74,7 @@ public class GameGrammarAccess extends AbstractElementFinder.AbstractGrammarElem
 		
 		//Jeu:
 		//	'jeu' name=ID
-		//	'Conaissances' '{'
+		//	'Connaissances' '{'
 		//	jeuElements+=Connaissance*
 		//	'}'
 		//	'Objets' '{'
@@ -100,7 +100,7 @@ public class GameGrammarAccess extends AbstractElementFinder.AbstractGrammarElem
 		//	'}';
 		@Override public ParserRule getRule() { return rule; }
 		
-		//'jeu' name=ID 'Conaissances' '{' jeuElements+=Connaissance* '}' 'Objets' '{' jeuElements+=Objet* '}' 'PNJs' '{'
+		//'jeu' name=ID 'Connaissances' '{' jeuElements+=Connaissance* '}' 'Objets' '{' jeuElements+=Objet* '}' 'PNJs' '{'
 		//jeuElements+=PNJ* '}' 'Actions' '{' jeuElements+=Action* '}' 'Conditions' '{' jeuElements+=Condition* '}' 'Lieux' '{'
 		//jeuElements+=Lieu* '}' 'Chemins' '{' jeuElements+=Chemin* '}' 'Joueur' '{' jeuElements+=Joueur '}'
 		public Group getGroup() { return cGroup; }
@@ -114,8 +114,8 @@ public class GameGrammarAccess extends AbstractElementFinder.AbstractGrammarElem
 		//ID
 		public RuleCall getNameIDTerminalRuleCall_1_0() { return cNameIDTerminalRuleCall_1_0; }
 		
-		//'Conaissances'
-		public Keyword getConaissancesKeyword_2() { return cConaissancesKeyword_2; }
+		//'Connaissances'
+		public Keyword getConnaissancesKeyword_2() { return cConnaissancesKeyword_2; }
 		
 		//'{'
 		public Keyword getLeftCurlyBracketKeyword_3() { return cLeftCurlyBracketKeyword_3; }
@@ -1629,7 +1629,7 @@ public class GameGrammarAccess extends AbstractElementFinder.AbstractGrammarElem
 	
 	//Jeu:
 	//	'jeu' name=ID
-	//	'Conaissances' '{'
+	//	'Connaissances' '{'
 	//	jeuElements+=Connaissance*
 	//	'}'
 	//	'Objets' '{'
