@@ -4,7 +4,7 @@ generate game "http://www.n7.fr/xtext/Game"
 
 Jeu: 'jeu' name=ID
 	
-	'Conaissances' '{'
+	'Connaissances' '{'
 		jeuElements+=Connaissance*
 	'}'
 	

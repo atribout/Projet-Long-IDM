@@ -99,9 +99,9 @@ ruleJeu returns [EObject current=null]
 				}
 			)
 		)
-		otherlv_2='Conaissances'
+		otherlv_2='Connaissances'
 		{
-			newLeafNode(otherlv_2, grammarAccess.getJeuAccess().getConaissancesKeyword_2());
+			newLeafNode(otherlv_2, grammarAccess.getJeuAccess().getConnaissancesKeyword_2());
 		}
 		otherlv_3='{'
 		{
