@@ -2,46 +2,64 @@ grammar fr.n7.xtext.Game with org.eclipse.xtext.common.Terminals
 
 generate game "http://www.n7.fr/xtext/Game"
 
-Game: 'game' name=ID
+Jeu: 'jeu' name=ID
 	
-	'Knowledges' '{'
-		gameElements+=Knowledge*
+	'Conaissances' '{'
+		jeuElements+=Connaissance*
 	'}'
 	
-	'Objects' '{'
-		gameElements+=Object*
+	'Objets' '{'
+		jeuElements+=Objet*
 	'}'
 	
-	'NPCs' '{'
-		gameElements+=NPC*
+	'PNJs' '{'
+		jeuElements+=PNJ*
 	'}'
 	
 	'Actions' '{'
-		gameElements+=Action*
+		jeuElements+=Action*
 	'}'
 	
 	'Conditions' '{'
-		gameElements+=Condition*
+		jeuElements+=Condition*
 	'}'
 	
-	'Places' '{'
-		gameElements+=Place*
+	'Lieux' '{'
+		jeuElements+=Lieu*
 	'}'
 	
-	'Paths' '{'
-		gameElements+=Path*
+	'Chemins' '{'
+		jeuElements+=Chemin*
 	'}'
 	
-	'Player' '{'
-		gameElements+=Player
+	'Joueur' '{'
+		jeuElements+=Joueur
 	'}'
 	;
 	
-Knowledges:
-	name=ID
+Connaissance:
+	name=ID ('visible' 'si' conditionVisibilite+=[Condition] (',' conditionVisibilite+=[Condition])*)?
 ;
 
-Objects:
-	name=ID
+Objet:
+	'(' name=ID 'taille' taille=INT ')' '*' quantite=INT
 ;
+
+ObjetTenu:
+	objet=[Objet] '*' quantite=INT ('visible' 'si' conditionVisibilite+=[Condition] (',' conditionVisibilite+=[Condition])*)?
+;
+
+Condition:
+	name=ID 'est' 'joueur' 'possede' '(' (((negation?='pas')? 'objet:' objet=ObjetTenu) | ((negation?='pas')? 'connaissance:' connaissance=[Connaissance])) ')'
+;
+
+PNJ: 
+	name=ID 'situe' 'en' lieu=[Lieu] 'et' 'dialogue' '{' dialogue+=Dialogue* '}' ('visible' 'si' conditionVisibilite+=[Condition] (',' conditionVisibilite+=[Condition])*)?
+;
+
+Lieu:
+	name=ID 'est' type=typePlace ('contient ('
+		('PNJs:' pnjs+=PNJ (',' pnjs+=PNJ)* ';')? ('objets:' objets+=ObjetTenu (',' objets+=ObjetTenu)* ';')?
+		('connaissances:' connaissances+=Connaissance (',' connaissances+=Connaissance)* ';')?
+	')')?
 ;
