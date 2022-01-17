@@ -81,7 +81,7 @@ Action:
 ;
 
 Chemin:
-	'depuis' lieu1=[Lieu] 'jusqu\'à' lieu2=[Lieu] ('implique' (actions+=[Action]) (','actions+=[Action])* )? ('ouvert' 'si' (conditionsOuverture+=[Condition]) (',' conditionsOuverture+=[Condition])*)? ('visible' 'if' (conditionsVisibilite+=[Condition]) (',' conditionsVisibilite+=[Condition])*)?
+	'depuis' lieu1=[Lieu] 'jusqu\'à' lieu2=[Lieu] ('implique' (actions+=[Action]) (','actions+=[Action])* )? ('ouvert' 'si' (conditionsOuverture+=[Condition]) (',' conditionsOuverture+=[Condition])*)? ('visible' 'si' (conditionsVisibilite+=[Condition]) (',' conditionsVisibilite+=[Condition])*)?
 ;
 
 Conditionnel:

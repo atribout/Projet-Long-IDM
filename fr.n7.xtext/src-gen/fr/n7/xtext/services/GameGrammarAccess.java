@@ -1167,7 +1167,7 @@ public class GameGrammarAccess extends AbstractElementFinder.AbstractGrammarElem
 		private final RuleCall cConditionsOuvertureConditionIDTerminalRuleCall_5_3_1_0_1 = (RuleCall)cConditionsOuvertureConditionCrossReference_5_3_1_0.eContents().get(1);
 		private final Group cGroup_6 = (Group)cGroup.eContents().get(6);
 		private final Keyword cVisibleKeyword_6_0 = (Keyword)cGroup_6.eContents().get(0);
-		private final Keyword cIfKeyword_6_1 = (Keyword)cGroup_6.eContents().get(1);
+		private final Keyword cSiKeyword_6_1 = (Keyword)cGroup_6.eContents().get(1);
 		private final Assignment cConditionsVisibiliteAssignment_6_2 = (Assignment)cGroup_6.eContents().get(2);
 		private final CrossReference cConditionsVisibiliteConditionCrossReference_6_2_0 = (CrossReference)cConditionsVisibiliteAssignment_6_2.eContents().get(0);
 		private final RuleCall cConditionsVisibiliteConditionIDTerminalRuleCall_6_2_0_1 = (RuleCall)cConditionsVisibiliteConditionCrossReference_6_2_0.eContents().get(1);
@@ -1179,12 +1179,12 @@ public class GameGrammarAccess extends AbstractElementFinder.AbstractGrammarElem
 		
 		//Chemin:
 		//	'depuis' lieu1=[Lieu] 'jusqu\'à' lieu2=[Lieu] ('implique' actions+=[Action] (',' actions+=[Action])*)? ('ouvert' 'si'
-		//	conditionsOuverture+=[Condition] (',' conditionsOuverture+=[Condition])*)? ('visible' 'if'
+		//	conditionsOuverture+=[Condition] (',' conditionsOuverture+=[Condition])*)? ('visible' 'si'
 		//	conditionsVisibilite+=[Condition] (',' conditionsVisibilite+=[Condition])*)?;
 		@Override public ParserRule getRule() { return rule; }
 		
 		//'depuis' lieu1=[Lieu] 'jusqu\'à' lieu2=[Lieu] ('implique' actions+=[Action] (',' actions+=[Action])*)? ('ouvert' 'si'
-		//conditionsOuverture+=[Condition] (',' conditionsOuverture+=[Condition])*)? ('visible' 'if'
+		//conditionsOuverture+=[Condition] (',' conditionsOuverture+=[Condition])*)? ('visible' 'si'
 		//conditionsVisibilite+=[Condition] (',' conditionsVisibilite+=[Condition])*)?
 		public Group getGroup() { return cGroup; }
 		
@@ -1275,14 +1275,14 @@ public class GameGrammarAccess extends AbstractElementFinder.AbstractGrammarElem
 		//ID
 		public RuleCall getConditionsOuvertureConditionIDTerminalRuleCall_5_3_1_0_1() { return cConditionsOuvertureConditionIDTerminalRuleCall_5_3_1_0_1; }
 		
-		//('visible' 'if' conditionsVisibilite+=[Condition] (',' conditionsVisibilite+=[Condition])*)?
+		//('visible' 'si' conditionsVisibilite+=[Condition] (',' conditionsVisibilite+=[Condition])*)?
 		public Group getGroup_6() { return cGroup_6; }
 		
 		//'visible'
 		public Keyword getVisibleKeyword_6_0() { return cVisibleKeyword_6_0; }
 		
-		//'if'
-		public Keyword getIfKeyword_6_1() { return cIfKeyword_6_1; }
+		//'si'
+		public Keyword getSiKeyword_6_1() { return cSiKeyword_6_1; }
 		
 		//conditionsVisibilite+=[Condition]
 		public Assignment getConditionsVisibiliteAssignment_6_2() { return cConditionsVisibiliteAssignment_6_2; }
@@ -1772,7 +1772,7 @@ public class GameGrammarAccess extends AbstractElementFinder.AbstractGrammarElem
 	
 	//Chemin:
 	//	'depuis' lieu1=[Lieu] 'jusqu\'à' lieu2=[Lieu] ('implique' actions+=[Action] (',' actions+=[Action])*)? ('ouvert' 'si'
-	//	conditionsOuverture+=[Condition] (',' conditionsOuverture+=[Condition])*)? ('visible' 'if'
+	//	conditionsOuverture+=[Condition] (',' conditionsOuverture+=[Condition])*)? ('visible' 'si'
 	//	conditionsVisibilite+=[Condition] (',' conditionsVisibilite+=[Condition])*)?;
 	public CheminElements getCheminAccess() {
 		return pChemin;

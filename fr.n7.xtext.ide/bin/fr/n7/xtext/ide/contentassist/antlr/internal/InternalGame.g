@@ -5442,9 +5442,9 @@ rule__Chemin__Group_6__1__Impl
 	}
 :
 (
-	{ before(grammarAccess.getCheminAccess().getIfKeyword_6_1()); }
-	'if'
-	{ after(grammarAccess.getCheminAccess().getIfKeyword_6_1()); }
+	{ before(grammarAccess.getCheminAccess().getSiKeyword_6_1()); }
+	'si'
+	{ after(grammarAccess.getCheminAccess().getSiKeyword_6_1()); }
 )
 ;
 finally {
