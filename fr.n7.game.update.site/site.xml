@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <site>
-   <feature url="features/fr.n7.game.feature_1.0.0.202201180425.jar" id="fr.n7.game.feature" version="1.0.0.202201180425"/>
+   <feature url="features/fr.n7.game.feature_1.0.0.202201181107.jar" id="fr.n7.game.feature" version="1.0.0.202201181107"/>
+   <feature url="features/fr.n7.game.feature2_1.0.0.202201181107.jar" id="fr.n7.game.feature2" version="1.0.0.202201181107"/>
 </site>

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<game:Jeu xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:game="http://www.n7.fr/xtext/Game">
+  <jeuElements xsi:type="game:JeuElement"/>
+  <jeuElements xsi:type="game:Chemin" conditionsVisibilite="//@jeuElements.6"/>
+  <jeuElements xsi:type="game:Chemin" conditionsVisibilite="//@jeuElements.7"/>
+  <jeuElements xsi:type="game:Joueur" name="Explorateur">
+    <inventaire objet="//@jeuElements.4" quantite="3"/>
+  </jeuElements>
+  <jeuElements xsi:type="game:Objet" name="Tentative" taille="1" quantite="1"/>
+  <jeuElements xsi:type="game:Connaissance" name="Réussite"/>
+  <jeuElements xsi:type="game:Condition" name="EnigmeTrouvee" connaissance="//@jeuElements.5"/>
+  <jeuElements xsi:type="game:Condition" name="ZeroTentative">
+    <objet objet="//@jeuElements.4"/>
+  </jeuElements>
+  <jeuElements xsi:type="game:Condition" name="SphinxVisible" negation="true" connaissance="//@jeuElements.5">
+    <objet objet="//@jeuElements.4" quantite="1"/>
+  </jeuElements>
+  <jeuElements xsi:type="game:Action" name="MauvaiseReponse">
+    <objetsConsommes objet="//@jeuElements.4" quantite="-1"/>
+  </jeuElements>
+  <jeuElements xsi:type="game:Action" name="ReponsePossible">
+    <ObjetDonnes objet="//@jeuElements.4"/>
+  </jeuElements>
+</game:Jeu>

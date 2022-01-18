@@ -1,0 +1,24 @@
+import 'Game.ecore'
+
+package game
+
+context Objet
+inv quantite: self.quantite >= 0
+inv taille : self.taille >= 0
+
+context Lieu
+def: countObjects(obj: Objet) : Integer =
+	self.objets
+	->select(po | po.objet = obj)
+	->asSequence()
+	->iterate(po:ObjetTenu;sum:Integer = 0 | sum + po.quantite)
+	
+context Joueur
+def: countObjects() : Integer = 
+	self.inventaire
+	->asSequence()
+	->iterate(po:ObjetTenu;sum:Integer = 0 | sum + po.quantite*po.objet.taille)
+	
+inv InventairefDepart : self.countObjects() <= self.taille
+
+endpackage

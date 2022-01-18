@@ -1,0 +1,31 @@
+import 'Game.ecore'
+
+package game
+
+
+context Objet
+def: countUsageObject() : Integer =
+	ObjetTenu.allInstances()
+	->select(po | po.objet = self)
+	->asSequence()->
+	iterate(po:ObjetTenu;sum:Integer = 0 | sum + po.quantite)
+
+def: countUsageObjectPlayer() : Integer =
+	Player.allInstances()
+	->asSequence()
+	->first().inventory
+	->select(po | po.object = self)
+	->asSequence()
+	->iterate(po:PossessedObject;sum:Integer = 0 | sum + po.quantity)
+
+def: countUsageObjectPlaces() : Integer =
+	Place.allInstances()
+	->asSequence()
+	->iterate(p:Place;sum:Integer = 0 | sum + p.countObjects(self))
+
+inv quantitePositive: self.quantite >= 0
+inv taillePositive : self.taille >= 0
+inv pasSurUtilisationObjets : self.quantite >= self.countUsageObjectPlayer() + self.countUsageObjectPlaces()
+
+
+endpackage

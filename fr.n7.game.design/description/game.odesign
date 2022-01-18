@@ -1,17 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<description:Group xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:description="http://www.eclipse.org/sirius/description/1.1.0" xmlns:description_1="http://www.eclipse.org/sirius/diagram/description/1.1.0" xmlns:style="http://www.eclipse.org/sirius/diagram/description/style/1.1.0" name="game" version="12.0.0.2017041100">
+<description:Group xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:description="http://www.eclipse.org/sirius/description/1.1.0" xmlns:description_1="http://www.eclipse.org/sirius/diagram/description/1.1.0" xmlns:style="http://www.eclipse.org/sirius/diagram/description/style/1.1.0" xmlns:tool="http://www.eclipse.org/sirius/diagram/description/tool/1.1.0" xmlns:tool_1="http://www.eclipse.org/sirius/description/tool/1.1.0" name="game" version="12.0.0.2017041100">
   <ownedViewpoints name="gameViewpoint" modelFileExtension="game">
-    <ownedRepresentations xsi:type="description_1:DiagramDescription" name="JeuDiagram" domainClass="game::Jeu" enablePopupBars="true">
+    <ownedRepresentations xsi:type="description_1:DiagramDescription" name="TerritoireDiagram" domainClass="game::Jeu" enablePopupBars="true">
       <metamodel href="../../fr.n7.game/Game.ecore#/"/>
       <defaultLayer name="Default">
         <nodeMappings name="LieuNode" domainClass="game::Lieu">
           <style xsi:type="style:EllipseNodeDescription" labelSize="12" labelPosition="node" resizeKind="NSEW">
             <borderColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
             <labelColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
-            <color xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='gray']"/>
+            <color xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='purple']"/>
           </style>
         </nodeMappings>
-        <edgeMappings name="CheminEdge" sourceMapping="//@ownedViewpoints[name='gameViewpoint']/@ownedRepresentations[name='JeuDiagram']/@defaultLayer/@nodeMappings[name='LieuNode']" targetMapping="//@ownedViewpoints[name='gameViewpoint']/@ownedRepresentations[name='JeuDiagram']/@defaultLayer/@nodeMappings[name='LieuNode']" targetFinderExpression="feature:succesor" sourceFinderExpression="feature:predecessor" domainClass="game::Chemin" useDomainElement="true">
+        <edgeMappings name="CheminEdge" sourceMapping="//@ownedViewpoints[name='gameViewpoint']/@ownedRepresentations[name='TerritoireDiagram']/@defaultLayer/@nodeMappings[name='LieuNode']" targetMapping="//@ownedViewpoints[name='gameViewpoint']/@ownedRepresentations[name='TerritoireDiagram']/@defaultLayer/@nodeMappings[name='LieuNode']" targetFinderExpression="feature:lieu2" sourceFinderExpression="feature:lieu1" domainClass="game::Chemin" useDomainElement="true">
           <style sizeComputationExpression="2">
             <strokeColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='gray']"/>
             <centerLabelStyleDescription labelSize="12">
@@ -19,9 +19,60 @@
             </centerLabelStyleDescription>
           </style>
         </edgeMappings>
-        <toolSections name="OutilsSection"/>
+        <toolSections name="OutilsSection">
+          <ownedTools xsi:type="tool:NodeCreationDescription" name="LieuCreation" nodeMappings="//@ownedViewpoints[name='gameViewpoint']/@ownedRepresentations[name='TerritoireDiagram']/@defaultLayer/@nodeMappings[name='LieuNode']">
+            <variable name="game::Jeu"/>
+            <viewVariable name="TerritoireDiagram"/>
+            <initialOperation>
+              <firstModelOperations xsi:type="tool_1:ChangeContext" browseExpression="[container/]">
+                <subModelOperations xsi:type="tool_1:CreateInstance" typeName="game::Lieu" referenceName="jeuElements"/>
+              </firstModelOperations>
+            </initialOperation>
+          </ownedTools>
+          <ownedTools xsi:type="tool:EdgeCreationDescription" name="CheminCreation" edgeMappings="//@ownedViewpoints[name='gameViewpoint']/@ownedRepresentations[name='TerritoireDiagram']/@defaultLayer/@edgeMappings[name='CheminEdge']">
+            <sourceVariable name="game::Lieu"/>
+            <targetVariable name="game::Lieu"/>
+            <sourceViewVariable name="source"/>
+            <targetViewVariable name="target"/>
+            <initialOperation>
+              <firstModelOperations xsi:type="tool_1:ChangeContext" browseExpression="[self.eContainer()/]">
+                <subModelOperations xsi:type="tool_1:CreateInstance" typeName="game::Chemin" referenceName="jeuElements">
+                  <subModelOperations xsi:type="tool_1:SetValue" featureName="lieu1" valueExpression="[source/]"/>
+                  <subModelOperations xsi:type="tool_1:SetValue" featureName="lieu2" valueExpression="[target/]"/>
+                </subModelOperations>
+              </firstModelOperations>
+            </initialOperation>
+          </ownedTools>
+        </toolSections>
       </defaultLayer>
     </ownedRepresentations>
     <ownedJavaExtensions qualifiedClassName="fr.n7.game.design.Services"/>
+  </ownedViewpoints>
+  <ownedViewpoints>
+    <ownedRepresentations xsi:type="description_1:DiagramDescription" name="InteractionDiagram" domainClass="game::Jeu" enablePopupBars="true">
+      <defaultLayer name="Default">
+        <containerMappings name="PNJModel" domainClass="game::PNJ" childrenPresentation="HorizontalStack">
+          <subContainerMappings name="Dialogue" semanticCandidatesExpression="feature:eAllContents" domainClass="game::Dialogue" childrenPresentation="HorizontalStack">
+            <subContainerMappings name="Choix" semanticCandidatesExpression="feature:eAllContents" domainClass="game::Choix">
+              <style xsi:type="style:ShapeContainerStyleDescription" borderSizeComputationExpression="1" labelSize="12">
+                <borderColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
+                <labelColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
+                <backgroundColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='light_purple']"/>
+              </style>
+            </subContainerMappings>
+            <style xsi:type="style:ShapeContainerStyleDescription" borderSizeComputationExpression="1" labelSize="12">
+              <borderColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
+              <labelColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
+              <backgroundColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='light_blue']"/>
+            </style>
+          </subContainerMappings>
+          <style xsi:type="style:ShapeContainerStyleDescription" borderSizeComputationExpression="1" labelSize="12">
+            <borderColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
+            <labelColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
+            <backgroundColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='light_yellow']"/>
+          </style>
+        </containerMappings>
+      </defaultLayer>
+    </ownedRepresentations>
   </ownedViewpoints>
 </description:Group>
