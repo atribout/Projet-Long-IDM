@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xmi:XMI xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:description="http://www.eclipse.org/sirius/description/1.1.0" xmlns:description_1="http://www.eclipse.org/sirius/diagram/description/1.1.0" xmlns:diagram="http://www.eclipse.org/sirius/diagram/1.1.0" xmlns:game="http://www.n7.fr/xtext/Game" xmlns:notation="http://www.eclipse.org/gmf/runtime/1.0.3/notation" xmlns:style="http://www.eclipse.org/sirius/diagram/description/style/1.1.0" xmlns:viewpoint="http://www.eclipse.org/sirius/1.1.0" xsi:schemaLocation="http://www.eclipse.org/sirius/description/1.1.0 http://www.eclipse.org/sirius/1.1.0#//description http://www.eclipse.org/sirius/diagram/description/1.1.0 http://www.eclipse.org/sirius/diagram/1.1.0#//description http://www.eclipse.org/sirius/diagram/description/style/1.1.0 http://www.eclipse.org/sirius/diagram/1.1.0#//description/style">
+  <viewpoint:DAnalysis uid="_2VOPEHgOEeyhfbdef-kBNw" selectedViews="_BYmngHgQEeyhfbdef-kBNw" version="14.3.1.202003261200">
+    <semanticResources>enigme.game</semanticResources>
+    <ownedViews xmi:type="viewpoint:DView" uid="_td4lgHgPEeyhfbdef-kBNw">
+      <viewpoint xmi:type="description:Viewpoint" href="platform:/resource/fr.n7.game.design/description/game.odesign#//@ownedViewpoints[name='MyViewpoint']"/>
+    </ownedViews>
+    <ownedViews xmi:type="viewpoint:DView" uid="_BYmngHgQEeyhfbdef-kBNw">
+      <viewpoint xmi:type="description:Viewpoint" href="platform:/resource/fr.n7.game.design/description/game.odesign#//@ownedViewpoints[name='gameViewpoint']"/>
+      <ownedRepresentationDescriptors xmi:type="viewpoint:DRepresentationDescriptor" uid="_EiqvwHgQEeyhfbdef-kBNw" name="new JeuDiagram" repPath="#_Eia4IHgQEeyhfbdef-kBNw" changeId="865821f0-eab0-44d6-8cbb-3f23f52a0cf2">
+        <description xmi:type="description_1:DiagramDescription" href="platform:/resource/fr.n7.game.design/description/game.odesign#//@ownedViewpoints[name='gameViewpoint']/@ownedRepresentations[name='JeuDiagram']"/>
+        <target xmi:type="game:Jeu" href="enigme.game#/"/>
+      </ownedRepresentationDescriptors>
+    </ownedViews>
+  </viewpoint:DAnalysis>
+  <diagram:DSemanticDiagram uid="_Eia4IHgQEeyhfbdef-kBNw">
+    <ownedAnnotationEntries xmi:type="description:AnnotationEntry" uid="_Ei9DoHgQEeyhfbdef-kBNw" source="GMF_DIAGRAMS">
+      <data xmi:type="notation:Diagram" xmi:id="_Ei9DoXgQEeyhfbdef-kBNw" type="Sirius" element="_Eia4IHgQEeyhfbdef-kBNw" measurementUnit="Pixel">
+        <children xmi:type="notation:Node" xmi:id="_X23kUHgQEeyhfbdef-kBNw" type="2001" element="_X2SVgHgQEeyhfbdef-kBNw">
+          <children xmi:type="notation:Node" xmi:id="_X26AkHgQEeyhfbdef-kBNw" type="5002">
+            <layoutConstraint xmi:type="notation:Location" xmi:id="_X26AkXgQEeyhfbdef-kBNw" y="5"/>
+          </children>
+          <children xmi:type="notation:Node" xmi:id="_X28c0HgQEeyhfbdef-kBNw" type="3016" element="_X2V_4HgQEeyhfbdef-kBNw">
+            <styles xmi:type="notation:ShapeStyle" xmi:id="_X28c0XgQEeyhfbdef-kBNw" fontName="Segoe UI"/>
+            <layoutConstraint xmi:type="notation:Bounds" xmi:id="_X28c0ngQEeyhfbdef-kBNw"/>
+          </children>
+          <styles xmi:type="notation:ShapeStyle" xmi:id="_X23kUXgQEeyhfbdef-kBNw" fontName="Segoe UI" fontHeight="12"/>
+          <layoutConstraint xmi:type="notation:Bounds" xmi:id="_X23kUngQEeyhfbdef-kBNw" width="30" height="30"/>
+        </children>
+        <children xmi:type="notation:Node" xmi:id="_X26noHgQEeyhfbdef-kBNw" type="2001" element="_X2X1EHgQEeyhfbdef-kBNw">
+          <children xmi:type="notation:Node" xmi:id="_X27OsHgQEeyhfbdef-kBNw" type="5002">
+            <layoutConstraint xmi:type="notation:Location" xmi:id="_X27OsXgQEeyhfbdef-kBNw" y="5"/>
+          </children>
+          <children xmi:type="notation:Node" xmi:id="_X28c03gQEeyhfbdef-kBNw" type="3016" element="_X2X1EXgQEeyhfbdef-kBNw">
+            <styles xmi:type="notation:ShapeStyle" xmi:id="_X28c1HgQEeyhfbdef-kBNw" fontName="Segoe UI"/>
+            <layoutConstraint xmi:type="notation:Bounds" xmi:id="_X28c1XgQEeyhfbdef-kBNw"/>
+          </children>
+          <styles xmi:type="notation:ShapeStyle" xmi:id="_X26noXgQEeyhfbdef-kBNw" fontName="Segoe UI" fontHeight="12"/>
+          <layoutConstraint xmi:type="notation:Bounds" xmi:id="_X26nongQEeyhfbdef-kBNw" x="90" width="30" height="30"/>
+        </children>
+        <children xmi:type="notation:Node" xmi:id="_X27OsngQEeyhfbdef-kBNw" type="2001" element="_X2YcIHgQEeyhfbdef-kBNw">
+          <children xmi:type="notation:Node" xmi:id="_X271wHgQEeyhfbdef-kBNw" type="5002">
+            <layoutConstraint xmi:type="notation:Location" xmi:id="_X271wXgQEeyhfbdef-kBNw" y="5"/>
+          </children>
+          <children xmi:type="notation:Node" xmi:id="_X29D4HgQEeyhfbdef-kBNw" type="3016" element="_X2YcIXgQEeyhfbdef-kBNw">
+            <styles xmi:type="notation:ShapeStyle" xmi:id="_X29D4XgQEeyhfbdef-kBNw" fontName="Segoe UI"/>
+            <layoutConstraint xmi:type="notation:Bounds" xmi:id="_X29D4ngQEeyhfbdef-kBNw"/>
+          </children>
+          <styles xmi:type="notation:ShapeStyle" xmi:id="_X27Os3gQEeyhfbdef-kBNw" fontName="Segoe UI" fontHeight="12"/>
+          <layoutConstraint xmi:type="notation:Bounds" xmi:id="_X27OtHgQEeyhfbdef-kBNw" x="180" width="30" height="30"/>
+        </children>
+        <styles xmi:type="notation:DiagramStyle" xmi:id="_Ei9DongQEeyhfbdef-kBNw"/>
+      </data>
+    </ownedAnnotationEntries>
+    <ownedAnnotationEntries xmi:type="description:AnnotationEntry" uid="_EjBVEHgQEeyhfbdef-kBNw" source="DANNOTATION_CUSTOMIZATION_KEY">
+      <data xmi:type="diagram:ComputedStyleDescriptionRegistry" uid="_EjBVEXgQEeyhfbdef-kBNw"/>
+    </ownedAnnotationEntries>
+    <ownedDiagramElements xmi:type="diagram:DNode" uid="_X2SVgHgQEeyhfbdef-kBNw" name="Enigme" width="3" height="3" resizeKind="NSEW">
+      <target xmi:type="game:Lieu" href="enigme.game#//@jeuElements.1"/>
+      <semanticElements xmi:type="game:Lieu" href="enigme.game#//@jeuElements.1"/>
+      <ownedStyle xmi:type="diagram:Ellipse" uid="_X2V_4HgQEeyhfbdef-kBNw" labelSize="12" labelPosition="node">
+        <description xmi:type="style:EllipseNodeDescription" href="platform:/resource/fr.n7.game.design/description/game.odesign#//@ownedViewpoints[name='gameViewpoint']/@ownedRepresentations[name='JeuDiagram']/@defaultLayer/@nodeMappings[name='LieuNode']/@style"/>
+      </ownedStyle>
+      <actualMapping xmi:type="description_1:NodeMapping" href="platform:/resource/fr.n7.game.design/description/game.odesign#//@ownedViewpoints[name='gameViewpoint']/@ownedRepresentations[name='JeuDiagram']/@defaultLayer/@nodeMappings[name='LieuNode']"/>
+    </ownedDiagramElements>
+    <ownedDiagramElements xmi:type="diagram:DNode" uid="_X2X1EHgQEeyhfbdef-kBNw" name="Succes" width="3" height="3" resizeKind="NSEW">
+      <target xmi:type="game:Lieu" href="enigme.game#//@jeuElements.2"/>
+      <semanticElements xmi:type="game:Lieu" href="enigme.game#//@jeuElements.2"/>
+      <arrangeConstraints>KEEP_LOCATION</arrangeConstraints>
+      <arrangeConstraints>KEEP_SIZE</arrangeConstraints>
+      <arrangeConstraints>KEEP_RATIO</arrangeConstraints>
+      <ownedStyle xmi:type="diagram:Ellipse" uid="_X2X1EXgQEeyhfbdef-kBNw" labelSize="12" labelPosition="node">
+        <description xmi:type="style:EllipseNodeDescription" href="platform:/resource/fr.n7.game.design/description/game.odesign#//@ownedViewpoints[name='gameViewpoint']/@ownedRepresentations[name='JeuDiagram']/@defaultLayer/@nodeMappings[name='LieuNode']/@style"/>
+      </ownedStyle>
+      <actualMapping xmi:type="description_1:NodeMapping" href="platform:/resource/fr.n7.game.design/description/game.odesign#//@ownedViewpoints[name='gameViewpoint']/@ownedRepresentations[name='JeuDiagram']/@defaultLayer/@nodeMappings[name='LieuNode']"/>
+    </ownedDiagramElements>
+    <ownedDiagramElements xmi:type="diagram:DNode" uid="_X2YcIHgQEeyhfbdef-kBNw" name="Echec" width="3" height="3" resizeKind="NSEW">
+      <target xmi:type="game:Lieu" href="enigme.game#//@jeuElements.3"/>
+      <semanticElements xmi:type="game:Lieu" href="enigme.game#//@jeuElements.3"/>
+      <ownedStyle xmi:type="diagram:Ellipse" uid="_X2YcIXgQEeyhfbdef-kBNw" labelSize="12" labelPosition="node">
+        <description xmi:type="style:EllipseNodeDescription" href="platform:/resource/fr.n7.game.design/description/game.odesign#//@ownedViewpoints[name='gameViewpoint']/@ownedRepresentations[name='JeuDiagram']/@defaultLayer/@nodeMappings[name='LieuNode']/@style"/>
+      </ownedStyle>
+      <actualMapping xmi:type="description_1:NodeMapping" href="platform:/resource/fr.n7.game.design/description/game.odesign#//@ownedViewpoints[name='gameViewpoint']/@ownedRepresentations[name='JeuDiagram']/@defaultLayer/@nodeMappings[name='LieuNode']"/>
+    </ownedDiagramElements>
+    <description xmi:type="description_1:DiagramDescription" href="platform:/resource/fr.n7.game.design/description/game.odesign#//@ownedViewpoints[name='gameViewpoint']/@ownedRepresentations[name='JeuDiagram']"/>
+    <filterVariableHistory xmi:type="diagram:FilterVariableHistory" uid="_EiiM4HgQEeyhfbdef-kBNw"/>
+    <activatedLayers xmi:type="description_1:Layer" href="platform:/resource/fr.n7.game.design/description/game.odesign#//@ownedViewpoints[name='gameViewpoint']/@ownedRepresentations[name='JeuDiagram']/@defaultLayer"/>
+    <target xmi:type="game:Jeu" href="enigme.game#/"/>
+  </diagram:DSemanticDiagram>
+</xmi:XMI>

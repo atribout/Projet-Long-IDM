@@ -1,0 +1,7 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Plugin
+Bundle-SymbolicName: fr.n7.game.plugin
+Bundle-Version: 1.0.0.qualifier
+Automatic-Module-Name: fr.n7.game.plugin
+Bundle-RequiredExecutionEnvironment: JavaSE-11
