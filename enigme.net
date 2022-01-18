@@ -1,0 +1,11 @@
+net enigme
+
+pl Lieu_Enigme (1)
+pl Obj_Tentatives (3)
+
+tr Chm_Succes [0,w[ Lieu_Enigme Conn_Reussite?1 Rep_Sphinx?-1 -> Lieu_Succes
+tr Dlg_Sphinx [0,w[ Obj_Tentatives?1 Lieu_Enigme?1 Conn_Reussite?-1 Rep_Sphinx?-1 -> Rep_Sphinx
+tr Chm_Echec [0,w[ Lieu_Enigme Obj_Tentatives?-1 -> Lieu_Echec
+tr Bonne_Reponse [0,w[ Rep_Sphinx -> Conn_Reussite
+tr Reponse_Fausse [0,w[ Rep_Sphinx Obj_Tentatives Obj_Tentatives?2 -> Rep_Sphinx
+tr Reponse_Fausse_fin [0,w[ Obj_Tentatives Rep_Sphinx Obj_Tentatives?-2 ->
