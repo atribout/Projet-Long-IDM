@@ -81,7 +81,7 @@ helper context Game!Action
 -- Retourne la transaction liee a une action
 def: getChoixouCheminDeAction(): Game!JeuElement =
 	Game!JeuElement.allInstances()
-	->select(jeuel | (jeuel.oclIsKindOf(Game!Chemin) or gameel.oclIsKindOf(Game!Choix)))
+	->select(jeuel | (jeuel.oclIsKindOf(Game!Chemin) or jeuel.oclIsKindOf(Game!Choix)))
 	->select(choixouChemin | choixouChemin.actions->asSequence()->includes(self))
 	->asSequence()->first();
 
@@ -158,17 +158,17 @@ def: getQuantiteCondition() : Integer =
 	endif;
 
 
-helper def: getLieuDeLieuEtObjets(Lieu: Game!Lieu, po : Game!ObjetTenu): petrinet!Lieu =
+helper def: getLieuDeLieuEtObjets(lieu: Game!Lieu, po : Game!ObjetTenu): petrinet!Lieu =
 	petrinet!Lieu.allInstances()
 	->select(p | p.name = 'Lieu_' + lieu.name +'_Objet_' + po.objet.name)
 	->asSequence()->first();
 
-helper def: getTransDeLieuEtObjets(Lieu: Game!Lieu, po : Game!ObjetTenu): petrinet!Transition =
+helper def: getTransDeLieuEtObjets(lieu: Game!Lieu, po : Game!ObjetTenu): petrinet!Transition =
 	petrinet!Transition.allInstances()
 	->select(p | p.name =  'Lieu_' + lieu.name +'_Prendre_' + po.objet.name)
 	->asSequence()->first();
 
-helper def: getTransitionFromLieuAndConnaissance(Lieu: Game!Lieu, cs : Game!Connaissance): petrinet!Transition =
+helper def: getTransitionFromLieuAndConnaissance(lieu: Game!Lieu, cs : Game!Connaissance): petrinet!Transition =
 	petrinet!Transition.allInstances()
 	->select(p | p.name =  'Lieu_' + lieu.name +'_PrendreCs_' + cs.name)
 	->asSequence()->first();
@@ -210,7 +210,7 @@ rule Objet2Lieux {
 
 -- Traduire une Lieu du jeu vers un  Lieu PetriNet
 rule Lieu2Lieu {
-	from Lieu: Game!Lieu
+	from lieu: Game!Lieu
 	to
 	lieu_petri: petrinet!Lieu(
 		name <- lieu.name,
@@ -241,7 +241,7 @@ rule Lieu2Lieu {
 		weight <- 1 -- on les mets 1 par 1 si y'en a plusieurs
 	),
 	-- L'arc qui relie le lieu à la prise d'objet :
-	arcs_de_lieu_vers_prise_objets: distinct petrinet!Arc foreach (objet in Lieu.objets) (
+	arcs_de_lieu_vers_prise_objets: distinct petrinet!Arc foreach (objet in lieu.objets) (
 	    lieu <- lieu,
 		transition <- thisModule.getTransDeLieuEtObjets(lieu, objet) , 
 		nature <- 'p2t',
@@ -250,36 +250,36 @@ rule Lieu2Lieu {
 		
 		
 	-- l'arc qui relie la prise d'objet au lieu
-		arcs_de_prise_objets_vers_lieu: distinct petrinet!Arc foreach (objet in Lieu.objets) (
-	    Lieu <- Lieu, -- Lieu des quantites
-		transition <- thisModule.getTransDeLieuEtObjets(Lieu, objet) , -- transition de prendre l'objet
+		arcs_de_prise_objets_vers_lieu: distinct petrinet!Arc foreach (objet in lieu.objets) (
+	    lieu <- lieu, -- Lieu des quantites
+		transition <- thisModule.getTransDeLieuEtObjets(lieu, objet) , -- transition de prendre l'objet
 		nature <- 't2p',
 		weight <- 1 -- on remet 1 jeton dans le lieu
 	),
 	
-	transitions_des_Connaissances: distinct petrinet!Transition foreach (cs in Lieu.Connaissances) (
-	    name <- 'Lieu_' + Lieu.name +'_PrendreKn_' + cs.name
+	transitions_des_Connaissances: distinct petrinet!Transition foreach (cs in lieu.Connaissances) (
+	    name <- 'Lieu_' + lieu.name +'_PrendreKn_' + cs.name
 	),
 	-- L'arc qui met la Connaissance dans l'inventaire
-	arcs_de_lieu_vers_prise_Connaissances: distinct petrinet!Arc foreach (cs in Lieu.Connaissances) (
-	    Lieu <- cs.getLieuInventaire(), -- Lieu des quantites
-		transition <- thisModule.getTransitionFromLieuAndConnaissance(Lieu, cs) , -- transition de prendre l'objet
+	arcs_de_lieu_vers_prise_Connaissances: distinct petrinet!Arc foreach (cs in lieu.Connaissances) (
+	    lieu <- cs.getLieuInventaire(), -- Lieu des quantites
+		transition <- thisModule.getTransitionFromLieuAndConnaissance(lieu, cs) , -- transition de prendre l'objet
 		nature <- 't2p',
 		weight <- 1 -- on les prend 1 par 1 si y'en a plusieurs
 	),
 		
 		
 	-- l'arc qui relie la prise de Connaissance au lieu
-		arcs_de_prise_Connaissance_vers_lieu: distinct petrinet!Arc foreach (cs in Lieu.Connaissances)  (
-	    Lieu <- Lieu, -- Lieu des quantites
-		transition <- thisModule.getTransitionFromLieuAndConnaissance(Lieu, cs) , -- transition de prendre l'objet
+		arcs_de_prise_Connaissance_vers_lieu: distinct petrinet!Arc foreach (cs in lieu.Connaissances)  (
+	    lieu <- lieu, -- Lieu des quantites
+		transition <- thisModule.getTransitionFromLieuAndConnaissance(lieu, cs) , -- transition de prendre l'objet
 		nature <- 't2p',
 		weight <- 1 -- on remet 1 jeton dans le lieu
 	),
 	-- L'arc qui relie le lieu � la prise de Connaissance :
-	arcs_de_lieu_vers_prise_cs: distinct petrinet!Arc foreach (cs in Lieu.Connaissances)  (
-	    Lieu <- Lieu, -- Lieu des quantites
-		transition <- thisModule.getTransitionFromLieuAndConnaissance(Lieu, cs) , -- transition de prendre l'objet
+	arcs_de_lieu_vers_prise_cs: distinct petrinet!Arc foreach (cs in lieu.Connaissances)  (
+	    lieu <- lieu, -- Lieu des quantites
+		transition <- thisModule.getTransitionFromLieuAndConnaissance(lieu, cs) , -- transition de prendre l'objet
 		nature <- 'p2t',
 		weight <- 1 -- on les prend 1 par 1 si y'en a plusieurs
 	)
@@ -328,19 +328,19 @@ rule Chemin2Transition {
 	
 	
 	
-	arcs_verif_condition: distinct petrinet!Arc foreach (condition in Chemin.visibilityConditions) (
+	arcs_verif_condition: distinct petrinet!Arc foreach (condition in chemin.visibilityConditions) (
 	    lieu <- condition.getConditionLieu(),
 	    transition <- transition_Chemin,
 	    nature <- 'p2t',
 		weight <- condition.getQuantiteCondition()
 	),
-	arcs_rendu_verif_condition: distinct petrinet!Arc foreach (condition in Chemin.conditionsVisibilite) (
+	arcs_rendu_verif_condition: distinct petrinet!Arc foreach (condition in chemin.conditionsVisibilite) (
 	    lieu <- condition.getConditionLieu(),
 	    transition <- transition_Chemin,
 	    nature <- 't2p',
 		weight <- condition.getQuantiteCondition()
 	),
-	arcs_verif_condition_open: distinct petrinet!Arc foreach (condition in Chemin.conditionsOuverture) (
+	arcs_verif_condition_open: distinct petrinet!Arc foreach (condition in chemin.conditionsOuverture) (
 	    lieu <- condition.getConditionLieu(),
 	    transition <- transition_Chemin,
 	    nature <- 'p2t',
@@ -467,8 +467,7 @@ rule Action2LieuEtTransitions {
 	    nature <- 'p2t',
 		weight <- obj.quantity
 		)
-		
-		-- tout objet donn� devrait �tre retir� des objets totaux
+
 		
 	
 }

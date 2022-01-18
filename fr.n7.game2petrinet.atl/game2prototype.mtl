@@ -1,0 +1,572 @@
+[comment encoding = UTF-8 /]
+[module game2prototype('http://www.n7.fr/xtext/AdventureJeu')]
+
+
+[template public JeuToPrototype(aJeu : Jeu)]
+[comment @main/]
+[file (aJeu.name + '.py', false, 'UTF-8')]
+from __future__ import annotations
+from enum import Enum
+from typing import Dict, List, Optional, Tuple
+
+
+class ObjectDetails:
+    """Informations d'un objet."""
+
+    def __init__(self, name: str, weight: int):
+        self.name = name
+        self.weight = weight
+
+
+class KnowledgeDetails:
+    """Informations d'une connaissance."""
+
+    def __init__(self, name: str):
+        self.name = name
+
+
+class Predicate:
+    """Prédicat utilisé par les `Condition`."""
+
+    def eval(self, joueur: Joueur) -> bool:
+        """Évalue le prédicat sur le joueur."""
+        return False
+
+
+class ObjectPredicate(Predicate):
+    """Prédicat sur l'inventaire d'un joueur."""
+
+    def __init__(self, obj: Object, quantity: int):
+        self.obj = obj
+        self.quantity = quantity
+
+    def eval(self, joueur: Joueur) -> bool:
+        return joueur.inventory['[self.obj]'/] == self.quantity
+
+
+class KnowledgePredicate(Predicate):
+    """Prédicat sur une connaissance du joueur."""
+
+    def __init__(self, knowledge: Knowledge, value: bool):
+        self.knowledge = knowledge
+        self.value = value
+
+    def eval(self, joueur: Joueur) -> bool:
+        return joueur.connaissances['[self.knowledge]'/] == self.value
+
+
+class OppositePredicate(Predicate):
+    """Inverse un prédicat."""
+
+    def __init__(self, predicate: Predicate):
+        self.predicate = predicate
+
+    def eval(self, joueur: Joueur) -> bool:
+        return not self.predicate.eval(joueur)
+
+
+class Condition:
+    """Ensemble de prédicats en forme normale disjonctive."""
+
+    def __init__(self, predicates: List['[List[Predicate]]'/]):
+        self.predicates = predicates
+
+    def eval(self, joueur: Joueur) -> bool:
+        for case in self.predicates:
+            if all(predicate.eval(joueur) for predicate in case):
+                return True
+        return False
+
+
+class Action:
+    """Action faisable dans une pièce, ou à la suite d'une autre action."""
+
+    def apply(self, joueur: Joueur):
+        pass
+
+    def describe(self) -> str:
+        return ""
+
+
+class ObjectAction(Action):
+    """Ramasser/consommer un objet."""
+
+    def __init__(self, obj: Object, quantity: int):
+        self.obj = obj
+        self.quantity = quantity
+
+    def apply(self, joueur: Joueur):
+        if self.quantity > 0:
+            print(
+                f"Objet {self.obj.value.name} obtenu en {self.quantity} exemplaire(s)"
+            )
+        else:
+            print(
+                f"Objet {self.obj.value.name} retiré en {-self.quantity} exemplaire(s)"
+            )
+        joueur.inventory['[self.obj]'/] += self.quantity
+
+    def describe(self) -> str:
+        return f"Ramasser un objet {self.obj.value.name}"
+
+
+class KnowledgeAction(Action):
+    """Obtenir une connaissance."""
+
+    def __init__(self, knowledge: Knowledge):
+        self.knowledge = knowledge
+
+    def apply(self, joueur: Joueur):
+        print(f"Connaissance {self.knowledge.value.name} obtenue !")
+        joueur.connaissances['[self.knowledge]'/] = True
+
+    def describe(self) -> str:
+        return "<<Erreur, les connaissances ne sont pas actionnable>>"
+
+
+class PathAction(Action):
+    """Changer de pièce."""
+
+    def __init__(self, path: Path):
+        self.path = path
+
+    def apply(self, joueur: Joueur):
+        for action in self.path.actions:
+            action.apply(joueur)
+        joueur.lieu = self.path.destination
+
+    def describe(self) -> str:
+        return "Emprunter un passage ouvert dans le mur"
+
+
+class CharacterAction(Action):
+    """Interagir avec un personnage."""
+
+    def __init__(self, character: Character):
+        self.character = character
+
+    def apply(self, joueur: Joueur):
+        joueur.dialog = self
+
+    def describe(self) -> str:
+        return (
+            f'Parler avec {self.character.name} qui demande "{self.character.message}"'
+        )
+
+
+class DialogAction(Action):
+    def __init__(self, answer: str, last: bool, actions: List['[Action]'/]):
+        self.answer = answer
+        self.last = last
+        self.actions = actions
+
+    def apply(self, joueur: Joueur):
+        for action in self.actions:
+            action.apply(joueur)
+        if self.last:
+            joueur.dialog = None
+
+    def describe(self) -> str:
+        return f'Répondre "{self.answer}"'
+
+
+class LeaveAction(Action):
+    def apply(self, joueur: Joueur):
+        joueur.game_finished = True
+
+    def describe(self) -> str:
+        return "Quitter le donjon"
+
+
+class Entity:
+    """Entité présente dans une pièce."""
+
+    def __init__(self, condition: Condition):
+        self.condition = condition
+
+    def visible(self, joueur: Joueur) -> bool:
+        return self.condition.eval(joueur)
+
+
+class Character(Entity):
+    """Personnage."""
+
+    def __init__(
+        self,
+        name: str,
+        message: str,
+        interactions: Dict['[Tuple[str, bool, Condition], List[Action]]'/],
+        condition: Condition,
+    ):
+        super().__init__(condition)
+        self.name = name
+        self.message = message
+        self.interactions = interactions
+
+
+class KnowledgeEntity(Entity):
+    """Connaissance."""
+
+    def __init__(self, knowledge: Knowledge, condition: Condition):
+        super().__init__(condition)
+        self.knowledge = knowledge
+
+
+class Path(Entity):
+    """Chemin vers une autre pièce."""
+
+    def __init__(self, destination: Place, actions: List['[Action]'/], condition: Condition):
+        super().__init__(condition)
+        self.destination = destination
+        self.actions = actions
+
+
+class ObjectEntity(Entity):
+    """Objet ramassable."""
+
+    def __init__(self, obj: Object, quantity: int, condition: Condition):
+        super().__init__(condition)
+        self.obj = obj
+        self.quantity = quantity
+
+
+class PlaceDetails:
+    """Informations sur une pièce."""
+
+    def __init__(self, lieu_type: int, entities: List['[Entity]'/]):
+        self.lieu_type = lieu_type
+        self.entities = entities
+
+    def enter(self, joueur: Joueur):
+        """Entre dans la pièce."""
+        for entity in self.entities:
+            if isinstance(entity, KnowledgeEntity):
+                KnowledgeAction(entity.knowledge).apply()
+
+    def choices(self, joueur: Joueur):
+        """Liste les actions possibles."""
+        c = ['[]'/]
+        if joueur.dialog is None:
+            if self.lieu_type == 2:
+                c.append(LeaveAction())
+            for entity in self.entities:
+                if not entity.visible(joueur):
+                    continue
+                if isinstance(entity, ObjectEntity):
+                    c.append(ObjectAction(entity.obj, entity.quantity))
+                elif isinstance(entity, Path):
+                    c.append(PathAction(entity))
+                elif isinstance(entity, Character):
+                    c.append(CharacterAction(entity))
+        else:
+            for (
+                (answer, last, condition),
+                actions,
+            ) in joueur.dialog.character.interactions.items():
+                if condition.eval(joueur):
+                    c.append(DialogAction(answer, last, actions))
+        return c
+
+[comment Début du code généré/]
+
+class Knowledge(Enum):
+[let connaissances : OrderedSet(Knowledge) = aJeu.getKnowledges() ]
+	[for (k : Knowledge | connaissances)]
+	[k.name.toUpper()/] = KnowledgeDetails("[k.name/]")
+	[/for]
+[/let]
+
+	@property
+	def value(self) -> KnowledgeDetails:
+		return self._value_
+
+class Object(Enum):
+[let objets : OrderedSet(Object) = aJeu.getObjects() ]
+	[for (o : Object | objets)]
+	[o.name.toUpper()/] = ObjectDetails("[o.name/]", [o.size/])
+	[/for]
+[/let]
+
+	@property
+	def value(self) -> ObjectDetails:
+		return self._value_
+
+
+class Place(Enum):
+[let lieus : OrderedSet(Place) = aJeu.getPlaces() ]
+[for (p : Place | lieus)]
+	[p.name.toUpper()/] = PlaceDetails([if p.type = lieuType::start]0[elseif p.type = lieuType::normal]1[elseif p.type = lieuType::end]2[/if], 
+		['['/]
+		[for (o : PossessedObject | p.objets)] 
+		ObjectEntity(
+			[o.object.name/], 
+			[o.object.quantity/], 
+			[let vconditions : Sequence(Condition) = o.visibilityConditions]
+			Condition(['['/]
+			[if vconditions->isEmpty()]
+			['[]'/]
+			[else]
+			['['/]
+			[for (vc : Condition | vconditions)]
+			[if vc.object <> null][if vc.negation]OppositePredicate(ObjectPredicate(Object.[vc.object.object.name.toUpper()/], [vc.object.quantity/]))[else]ObjectPredicate(Object.[vc.object.object.name.toUpper()/], [vc.object.quantity/])[/if][/if][if vc.knowledge <> null][if vc.negation]OppositePredicate(KnowledgePredicate(Knowledge.[vc.knowledge.name.toUpper()/], True))[else]KnowledgePredicate(Knowledge.[vc.knowledge.name.toUpper()/], True)[/if][/if][if vconditions->last() <> vc],[/if]
+			[/for]
+			[']'/]
+			[/if]
+			[/let]
+			[']'/])
+		[if p.objets->last() <> o],[/if]
+		[/for]
+		[if p.connaissances->isEmpty()]
+		[']'/])
+		[else],
+		[for (k : Knowledge | p.connaissances)]
+		KnowledgeEntity(
+			[k.name/],
+			[let vconditions : Sequence(Condition) = k.visibilityConditions]
+			Condition(['['/]
+			[if vconditions->isEmpty()]
+			['[]'/]
+			[else]
+			['['/]
+			[for (vc : Condition | vconditions)]
+			[if vc.object <> null][if vc.negation]OppositePredicate(ObjectPredicate(Object.[vc.object.object.name.toUpper()/], [vc.object.quantity/]))[else]ObjectPredicate(Object.[vc.object.object.name.toUpper()/], [vc.object.quantity/])[/if][/if][if vc.knowledge <> null][if vc.negation]OppositePredicate(KnowledgePredicate(Knowledge.[vc.knowledge.name.toUpper()/], True))[else]KnowledgePredicate(Knowledge.[vc.knowledge.name.toUpper()/], True)[/if][/if][if vconditions->last() <> vc],[/if]
+			[/for]
+			[']'/]
+			[/if]
+			[/let]
+		[if p.connaissances->last() <> k],[/if]
+		[/for]
+		[']'/])
+		[/if]
+[/for]
+
+	@property
+	def value(self) -> PlaceDetails:
+		return self._value_
+
+[/let]
+
+[comment Ajout des Paths entre les lieus/]
+[let paths : OrderedSet(Path) = aJeu.getPaths() ]
+[for (p : Path | paths)]
+Place.[p.lieu1.name.toUpper()/].value.entities.append(
+	Path(
+		Place.[p.lieu2.name.toUpper()/], 
+		[let actions : Sequence(Action) = p.actions]
+		['['/]
+		[for (a : Action | actions)]
+		[for (oac : PossessedObject | a.consumedObjects)]
+		ObjectAction(Object.[oac.object.name.toUpper()/], -[oac.quantity/])[if a.consumedObjects->last() <> oac],[/if]
+		[/for]
+		[if not a.consumedObjects->isEmpty() and not a.givenObjects->isEmpty()],[/if]
+		[for (oag : PossessedObject | a.givenObjects)]
+		ObjectAction(Object.[oag.object.name.toUpper()/], [oag.quantity/])[if a.givenObjects->last() <> oag],[/if]
+		[/for]
+		[if not a.connaissances->isEmpty()]
+		[if not a.givenObjects->isEmpty() or not a.consumedObjects->isEmpty()],[/if]
+		[for (ok : Knowledge | a.connaissances)]
+		KnowledgeAction(Knowledge.[ok.name.toUpper()/])[if a.connaissances->last() <> ok],[/if]
+		[/for]
+		[/if]
+		[if actions->last() <> a],[/if]
+		[/for]
+		[']'/][/let], 
+		[let vconditions : Sequence(Condition) = p.visibilityConditions]
+		Condition(['['/]
+		[if vconditions->isEmpty()]
+		['[]'/]
+		[else]
+		['['/]
+		[for (vc : Condition | vconditions)]
+		[if vc.object <> null][if vc.negation]OppositePredicate(ObjectPredicate(Object.[vc.object.object.name.toUpper()/], [vc.object.quantity/]))[else]ObjectPredicate(Object.[vc.object.object.name.toUpper()/], [vc.object.quantity/])[/if][/if][if vc.knowledge <> null][if vc.negation]OppositePredicate(KnowledgePredicate(Knowledge.[vc.knowledge.name.toUpper()/], True))[else]KnowledgePredicate(Knowledge.[vc.knowledge.name.toUpper()/], True)[/if][/if][if vconditions->last() <> vc],[/if]
+		[/for]
+		[']'/]
+		[/if]
+		[/let]
+		[']'/])
+	)
+)
+[/for]
+[/let]
+
+[comment Ajout des NPC/]
+[let npc : OrderedSet(NPC) = aJeu.getNPC() ]
+[for (n : NPC | npc)]
+Place.[n.lieu.name.toUpper()/].value.entities.append(
+	Character(
+		"[n.name/]",
+		[let dialogues : OrderedSet(Dialogue) = n.dialogue]
+		[for (d : Dialogue | dialogues)]
+		"[d.texte/]",
+		{
+			[let reponses : OrderedSet(Choice) = d.reponses]
+			[for (c : Choice | reponses)]
+			(
+				"[c.texte/]",
+				False,
+				[let vconditions : Sequence(Condition) = c.visibilityConditions]
+				Condition(['['/]
+				[if vconditions->isEmpty()]
+				['[]'/]
+				[else]
+				['['/]
+				[for (vc : Condition | vconditions)]
+				[if vc.object <> null][if vc.negation]OppositePredicate(ObjectPredicate(Object.[vc.object.object.name.toUpper()/], [vc.object.quantity/]))[else]ObjectPredicate(Object.[vc.object.object.name.toUpper()/], [vc.object.quantity/])[/if][/if][if vc.knowledge <> null][if vc.negation]OppositePredicate(KnowledgePredicate(Knowledge.[vc.knowledge.name.toUpper()/], True))[else]KnowledgePredicate(Knowledge.[vc.knowledge.name.toUpper()/], True)[/if][/if][if vconditions->last() <> vc],[/if]
+				[/for]
+				[']'/]
+				[/if]
+				[/let]
+				[']'/])
+			)[let actions : Sequence(Action) = c.actions]
+			[if actions->isEmpty()]:['[]'/]
+			[else]:['['/]
+			[for (a : Action | actions)]
+			[for (oac : PossessedObject | a.consumedObjects)]
+			ObjectAction(Object.[oac.object.name.toUpper()/], -[oac.quantity/])[if a.consumedObjects->last() <> oac],[/if]
+			[/for]
+			[if not a.consumedObjects->isEmpty() and not a.givenObjects->isEmpty()],[/if]
+			[for (oag : PossessedObject | a.givenObjects)]
+			ObjectAction(Object.[oag.object.name.toUpper()/], [oag.quantity/])[if a.givenObjects->last() <> oag],[/if]
+			[/for]
+			[if not a.connaissances->isEmpty()]
+			[if not a.givenObjects->isEmpty() or not a.consumedObjects->isEmpty()],[/if]
+			[for (ok : Knowledge | a.connaissances)]
+			KnowledgeAction(Knowledge.[ok.name.toUpper()/])[if a.connaissances->last() <> ok],[/if]
+			[/for]
+			[/if]
+			[if actions->last() <> a],[/if]
+			[/for]
+			[']'/][/if][/let],
+			[/for]
+			[/let]
+		},
+		[let vconditions : Sequence(Condition) = d.visibilityConditions]
+		Condition(['['/]
+		[if vconditions->isEmpty()]
+		['[]'/]
+		[else]
+		['['/]
+		[for (vc : Condition | vconditions)]
+		[if vc.object <> null][if vc.negation]OppositePredicate(ObjectPredicate(Object.[vc.object.object.name.toUpper()/], [vc.object.quantity/]))[else]ObjectPredicate(Object.[vc.object.object.name.toUpper()/], [vc.object.quantity/])[/if][/if][if vc.knowledge <> null][if vc.negation]OppositePredicate(KnowledgePredicate(Knowledge.[vc.knowledge.name.toUpper()/], True))[else]KnowledgePredicate(Knowledge.[vc.knowledge.name.toUpper()/], True)[/if][/if][if vconditions->last() <> vc],[/if]
+		[/for]
+		[']'/]
+		[/if]
+		[/let]
+		[']'/]
+		),
+[/for]
+[/let]
+	)
+)
+[/for]
+[/let]
+
+class Joueur:
+	def __init__(self):
+	[let joueur : Joueur = aJeu.getJoueur() ]
+		self.inventory: Dict['[Object, int]'/] = {[for (o : PossessedObject | joueur.inventory)]Object.[o.object.name.toUpper()/]: [o.quantity/][if joueur.inventory->last() <> o],[/if][/for]}
+		self.connaissances: Dict['[Object, bool]'/] = {[for (k : Knowledge | aJeu.getKnowledges())][if joueur.connaissances->includes(k)]Knowledge.[k.name.toUpper()/]: True[else]Knowledge.[k.name.toUpper()/]: False[/if][if joueur.connaissances->last() <> k],[/if][/for]}
+		self.strength: int = [joueur.size /]
+		self.lieu: Place = Place.[joueur.lieu.name.toUpper()/]
+		self.dialog: Optional['[CharacterAction]'/] = None
+		self.game_finished = False
+	[/let]
+
+
+
+	def play(self):
+		while not self.game_finished:
+			self.describe()
+			print("Actions possibles :")
+			i = 1
+			choices: List['[Action]'/] = self.lieu.value.choices(self)
+			for c in choices:
+				print(f" {i}. {c.describe()}")
+				i += 1
+			print()
+
+			choice = input("Choisissez une action (q pour quitter): ")
+			if choice == "q":
+				return
+
+			i = 1
+			for c in choices:
+				if str(i) == choice:
+					print()
+					print("- - - ")
+					print()
+					choices['[i - 1]'/].apply(self)
+					print()
+					break
+				i += 1
+			else:
+				print("Choix invalide.")
+				print(" - - - ")
+				print()
+
+	def describe(self):
+		print("Votre inventaire :")
+		empty = True
+		for obj in self.inventory:
+			print(f" *  {obj.value.name} x{self.inventory['[obj]'/]}")
+			empty = False
+		if empty:
+			print("(vide)")
+		print()
+		print("Vos connaissances :")
+		empty = True
+		for knowledge in self.connaissances:
+			if self.connaissances['[knowledge]'/]:
+				print(f" *  {knowledge.value.name}")
+				empty = False
+		if empty:
+			print("(vide)")
+		print()
+
+
+if __name__ == "__main__":
+	Joueur().play()
+
+
+
+
+[/file]
+[/template]
+
+
+[query public getKnowledges(j: Jeu) : OrderedSet(Knowledge) = 
+	j.gameElements->select( e | e.oclIsTypeOf(Knowledge) )
+		->collect( e | e.oclAsType(Knowledge) )
+		->asOrderedSet()
+/]
+
+[query public getObjects(j: Jeu) : OrderedSet(Object) = 
+	j.gameElements->select( e | e.oclIsTypeOf(Object) )
+		->collect( e | e.oclAsType(Object) )
+		->asOrderedSet()
+/]
+
+[query public getPlaces(j: Jeu) : OrderedSet(Place) = 
+	j.gameElements->select( e | e.oclIsTypeOf(Place) )
+		->collect( e | e.oclAsType(Place) )
+		->asOrderedSet()
+/]
+
+[query public getPaths(j: Jeu) : OrderedSet(Path) = 
+	j.gameElements->select( e | e.oclIsTypeOf(Path) )
+		->collect( e | e.oclAsType(Path) )
+		->asOrderedSet()
+/]
+
+[query public getNPC(j: Jeu) : OrderedSet(NPC) = 
+	j.gameElements->select( e | e.oclIsTypeOf(NPC) )
+		->collect( e | e.oclAsType(NPC) )
+		->asOrderedSet()
+/]
+
+[query public getJoueur(j: Jeu) : Joueur = 
+	j.gameElements->select( e | e.oclIsTypeOf(Joueur) )
+		->collect( e | e.oclAsType(Joueur) )
+		->asSequence()->first()
+/]
+
