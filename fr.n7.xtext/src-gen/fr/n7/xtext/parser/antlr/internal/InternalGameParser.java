@@ -22,7 +22,7 @@ import java.util.ArrayList;
 @SuppressWarnings("all")
 public class InternalGameParser extends AbstractInternalAntlrParser {
     public static final String[] tokenNames = new String[] {
-        "<invalid>", "<EOR>", "<DOWN>", "<UP>", "RULE_ID", "RULE_INT", "RULE_STRING", "RULE_ML_COMMENT", "RULE_SL_COMMENT", "RULE_WS", "RULE_ANY_OTHER", "'jeu'", "'Connaissances'", "'{'", "'}'", "'Objets'", "'PNJs'", "'Actions'", "'Conditions'", "'Lieux'", "'Chemins'", "'Joueur'", "'visible'", "'si'", "','", "'('", "'taille'", "')'", "'*'", "'est'", "'joueur'", "'possede'", "'pas'", "'objet:'", "'connaissance:'", "'situe'", "'en'", "'et'", "'dialogue'", "'contient ('", "'PNJs:'", "';'", "'objets:'", "'connaissances:'", "'propose'", "'implique'", "'consomme'", "'donne'", "'depuis'", "'jusqu\\'\\u00E0'", "'ouvert'", "'if'", "'inventaire'", "'commence'", "'avec'", "'connaissances'", "'debut'", "'fin'", "'intermediaire'"
+        "<invalid>", "<EOR>", "<DOWN>", "<UP>", "RULE_ID", "RULE_INT", "RULE_STRING", "RULE_ML_COMMENT", "RULE_SL_COMMENT", "RULE_WS", "RULE_ANY_OTHER", "'jeu'", "'Connaissances'", "'{'", "'}'", "'Objets'", "'PNJs'", "'Actions'", "'Conditions'", "'Lieux'", "'Chemins'", "'Joueur'", "'visible'", "'si'", "','", "'('", "'taille'", "')'", "'*'", "'est'", "'joueur'", "'possede'", "'pas'", "'objet:'", "'connaissance:'", "'situe'", "'en'", "'et'", "'dialogue'", "'contient ('", "'PNJs:'", "';'", "'objets:'", "'connaissances:'", "'propose'", "'implique'", "'consomme'", "'donne'", "'depuis'", "'jusqu\\'\\u00E0'", "'ouvert'", "'inventaire'", "'commence'", "'avec'", "'connaissances'", "'debut'", "'fin'", "'intermediaire'"
     };
     public static final int T__50=50;
     public static final int T__19=19;
@@ -37,7 +37,6 @@ public class InternalGameParser extends AbstractInternalAntlrParser {
     public static final int T__13=13;
     public static final int T__57=57;
     public static final int T__14=14;
-    public static final int T__58=58;
     public static final int T__51=51;
     public static final int T__52=52;
     public static final int T__53=53;
@@ -1275,7 +1274,7 @@ public class InternalGameParser extends AbstractInternalAntlrParser {
                             if ( (LA10_2==RULE_ID) ) {
                                 int LA10_3 = input.LA(3);
 
-                                if ( (LA10_3==EOF||LA10_3==RULE_ID||LA10_3==14||LA10_3==24||LA10_3==27||LA10_3==41||LA10_3==43||LA10_3==47||LA10_3==55) ) {
+                                if ( (LA10_3==EOF||LA10_3==RULE_ID||LA10_3==14||LA10_3==24||LA10_3==27||LA10_3==41||LA10_3==43||LA10_3==47||LA10_3==54) ) {
                                     alt10=1;
                                 }
 
@@ -3565,7 +3564,7 @@ public class InternalGameParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "ruleChemin"
-    // InternalGame.g:1528:1: ruleChemin returns [EObject current=null] : (otherlv_0= 'depuis' ( (otherlv_1= RULE_ID ) ) otherlv_2= 'jusqu\\'\\u00E0' ( (otherlv_3= RULE_ID ) ) (otherlv_4= 'implique' ( (otherlv_5= RULE_ID ) ) (otherlv_6= ',' ( (otherlv_7= RULE_ID ) ) )* )? (otherlv_8= 'ouvert' otherlv_9= 'si' ( (otherlv_10= RULE_ID ) ) (otherlv_11= ',' ( (otherlv_12= RULE_ID ) ) )* )? (otherlv_13= 'visible' otherlv_14= 'if' ( (otherlv_15= RULE_ID ) ) (otherlv_16= ',' ( (otherlv_17= RULE_ID ) ) )* )? ) ;
+    // InternalGame.g:1528:1: ruleChemin returns [EObject current=null] : (otherlv_0= 'depuis' ( (otherlv_1= RULE_ID ) ) otherlv_2= 'jusqu\\'\\u00E0' ( (otherlv_3= RULE_ID ) ) (otherlv_4= 'implique' ( (otherlv_5= RULE_ID ) ) (otherlv_6= ',' ( (otherlv_7= RULE_ID ) ) )* )? (otherlv_8= 'ouvert' otherlv_9= 'si' ( (otherlv_10= RULE_ID ) ) (otherlv_11= ',' ( (otherlv_12= RULE_ID ) ) )* )? (otherlv_13= 'visible' otherlv_14= 'si' ( (otherlv_15= RULE_ID ) ) (otherlv_16= ',' ( (otherlv_17= RULE_ID ) ) )* )? ) ;
     public final EObject ruleChemin() throws RecognitionException {
         EObject current = null;
 
@@ -3592,11 +3591,11 @@ public class InternalGameParser extends AbstractInternalAntlrParser {
         	enterRule();
 
         try {
-            // InternalGame.g:1534:2: ( (otherlv_0= 'depuis' ( (otherlv_1= RULE_ID ) ) otherlv_2= 'jusqu\\'\\u00E0' ( (otherlv_3= RULE_ID ) ) (otherlv_4= 'implique' ( (otherlv_5= RULE_ID ) ) (otherlv_6= ',' ( (otherlv_7= RULE_ID ) ) )* )? (otherlv_8= 'ouvert' otherlv_9= 'si' ( (otherlv_10= RULE_ID ) ) (otherlv_11= ',' ( (otherlv_12= RULE_ID ) ) )* )? (otherlv_13= 'visible' otherlv_14= 'if' ( (otherlv_15= RULE_ID ) ) (otherlv_16= ',' ( (otherlv_17= RULE_ID ) ) )* )? ) )
-            // InternalGame.g:1535:2: (otherlv_0= 'depuis' ( (otherlv_1= RULE_ID ) ) otherlv_2= 'jusqu\\'\\u00E0' ( (otherlv_3= RULE_ID ) ) (otherlv_4= 'implique' ( (otherlv_5= RULE_ID ) ) (otherlv_6= ',' ( (otherlv_7= RULE_ID ) ) )* )? (otherlv_8= 'ouvert' otherlv_9= 'si' ( (otherlv_10= RULE_ID ) ) (otherlv_11= ',' ( (otherlv_12= RULE_ID ) ) )* )? (otherlv_13= 'visible' otherlv_14= 'if' ( (otherlv_15= RULE_ID ) ) (otherlv_16= ',' ( (otherlv_17= RULE_ID ) ) )* )? )
+            // InternalGame.g:1534:2: ( (otherlv_0= 'depuis' ( (otherlv_1= RULE_ID ) ) otherlv_2= 'jusqu\\'\\u00E0' ( (otherlv_3= RULE_ID ) ) (otherlv_4= 'implique' ( (otherlv_5= RULE_ID ) ) (otherlv_6= ',' ( (otherlv_7= RULE_ID ) ) )* )? (otherlv_8= 'ouvert' otherlv_9= 'si' ( (otherlv_10= RULE_ID ) ) (otherlv_11= ',' ( (otherlv_12= RULE_ID ) ) )* )? (otherlv_13= 'visible' otherlv_14= 'si' ( (otherlv_15= RULE_ID ) ) (otherlv_16= ',' ( (otherlv_17= RULE_ID ) ) )* )? ) )
+            // InternalGame.g:1535:2: (otherlv_0= 'depuis' ( (otherlv_1= RULE_ID ) ) otherlv_2= 'jusqu\\'\\u00E0' ( (otherlv_3= RULE_ID ) ) (otherlv_4= 'implique' ( (otherlv_5= RULE_ID ) ) (otherlv_6= ',' ( (otherlv_7= RULE_ID ) ) )* )? (otherlv_8= 'ouvert' otherlv_9= 'si' ( (otherlv_10= RULE_ID ) ) (otherlv_11= ',' ( (otherlv_12= RULE_ID ) ) )* )? (otherlv_13= 'visible' otherlv_14= 'si' ( (otherlv_15= RULE_ID ) ) (otherlv_16= ',' ( (otherlv_17= RULE_ID ) ) )* )? )
             {
-            // InternalGame.g:1535:2: (otherlv_0= 'depuis' ( (otherlv_1= RULE_ID ) ) otherlv_2= 'jusqu\\'\\u00E0' ( (otherlv_3= RULE_ID ) ) (otherlv_4= 'implique' ( (otherlv_5= RULE_ID ) ) (otherlv_6= ',' ( (otherlv_7= RULE_ID ) ) )* )? (otherlv_8= 'ouvert' otherlv_9= 'si' ( (otherlv_10= RULE_ID ) ) (otherlv_11= ',' ( (otherlv_12= RULE_ID ) ) )* )? (otherlv_13= 'visible' otherlv_14= 'if' ( (otherlv_15= RULE_ID ) ) (otherlv_16= ',' ( (otherlv_17= RULE_ID ) ) )* )? )
-            // InternalGame.g:1536:3: otherlv_0= 'depuis' ( (otherlv_1= RULE_ID ) ) otherlv_2= 'jusqu\\'\\u00E0' ( (otherlv_3= RULE_ID ) ) (otherlv_4= 'implique' ( (otherlv_5= RULE_ID ) ) (otherlv_6= ',' ( (otherlv_7= RULE_ID ) ) )* )? (otherlv_8= 'ouvert' otherlv_9= 'si' ( (otherlv_10= RULE_ID ) ) (otherlv_11= ',' ( (otherlv_12= RULE_ID ) ) )* )? (otherlv_13= 'visible' otherlv_14= 'if' ( (otherlv_15= RULE_ID ) ) (otherlv_16= ',' ( (otherlv_17= RULE_ID ) ) )* )?
+            // InternalGame.g:1535:2: (otherlv_0= 'depuis' ( (otherlv_1= RULE_ID ) ) otherlv_2= 'jusqu\\'\\u00E0' ( (otherlv_3= RULE_ID ) ) (otherlv_4= 'implique' ( (otherlv_5= RULE_ID ) ) (otherlv_6= ',' ( (otherlv_7= RULE_ID ) ) )* )? (otherlv_8= 'ouvert' otherlv_9= 'si' ( (otherlv_10= RULE_ID ) ) (otherlv_11= ',' ( (otherlv_12= RULE_ID ) ) )* )? (otherlv_13= 'visible' otherlv_14= 'si' ( (otherlv_15= RULE_ID ) ) (otherlv_16= ',' ( (otherlv_17= RULE_ID ) ) )* )? )
+            // InternalGame.g:1536:3: otherlv_0= 'depuis' ( (otherlv_1= RULE_ID ) ) otherlv_2= 'jusqu\\'\\u00E0' ( (otherlv_3= RULE_ID ) ) (otherlv_4= 'implique' ( (otherlv_5= RULE_ID ) ) (otherlv_6= ',' ( (otherlv_7= RULE_ID ) ) )* )? (otherlv_8= 'ouvert' otherlv_9= 'si' ( (otherlv_10= RULE_ID ) ) (otherlv_11= ',' ( (otherlv_12= RULE_ID ) ) )* )? (otherlv_13= 'visible' otherlv_14= 'si' ( (otherlv_15= RULE_ID ) ) (otherlv_16= ',' ( (otherlv_17= RULE_ID ) ) )* )?
             {
             otherlv_0=(Token)match(input,48,FOLLOW_3); 
 
@@ -3834,7 +3833,7 @@ public class InternalGameParser extends AbstractInternalAntlrParser {
 
             }
 
-            // InternalGame.g:1650:3: (otherlv_13= 'visible' otherlv_14= 'if' ( (otherlv_15= RULE_ID ) ) (otherlv_16= ',' ( (otherlv_17= RULE_ID ) ) )* )?
+            // InternalGame.g:1650:3: (otherlv_13= 'visible' otherlv_14= 'si' ( (otherlv_15= RULE_ID ) ) (otherlv_16= ',' ( (otherlv_17= RULE_ID ) ) )* )?
             int alt44=2;
             int LA44_0 = input.LA(1);
 
@@ -3843,15 +3842,15 @@ public class InternalGameParser extends AbstractInternalAntlrParser {
             }
             switch (alt44) {
                 case 1 :
-                    // InternalGame.g:1651:4: otherlv_13= 'visible' otherlv_14= 'if' ( (otherlv_15= RULE_ID ) ) (otherlv_16= ',' ( (otherlv_17= RULE_ID ) ) )*
+                    // InternalGame.g:1651:4: otherlv_13= 'visible' otherlv_14= 'si' ( (otherlv_15= RULE_ID ) ) (otherlv_16= ',' ( (otherlv_17= RULE_ID ) ) )*
                     {
-                    otherlv_13=(Token)match(input,22,FOLLOW_52); 
+                    otherlv_13=(Token)match(input,22,FOLLOW_18); 
 
                     				newLeafNode(otherlv_13, grammarAccess.getCheminAccess().getVisibleKeyword_6_0());
                     			
-                    otherlv_14=(Token)match(input,51,FOLLOW_3); 
+                    otherlv_14=(Token)match(input,23,FOLLOW_3); 
 
-                    				newLeafNode(otherlv_14, grammarAccess.getCheminAccess().getIfKeyword_6_1());
+                    				newLeafNode(otherlv_14, grammarAccess.getCheminAccess().getSiKeyword_6_1());
                     			
                     // InternalGame.g:1659:4: ( (otherlv_15= RULE_ID ) )
                     // InternalGame.g:1660:5: (otherlv_15= RULE_ID )
@@ -4332,11 +4331,11 @@ public class InternalGameParser extends AbstractInternalAntlrParser {
 
             }
 
-            otherlv_4=(Token)match(input,37,FOLLOW_53); 
+            otherlv_4=(Token)match(input,37,FOLLOW_52); 
 
             			newLeafNode(otherlv_4, grammarAccess.getJoueurAccess().getEtKeyword_4());
             		
-            otherlv_5=(Token)match(input,52,FOLLOW_20); 
+            otherlv_5=(Token)match(input,51,FOLLOW_20); 
 
             			newLeafNode(otherlv_5, grammarAccess.getJoueurAccess().getInventaireKeyword_5());
             		
@@ -4350,7 +4349,7 @@ public class InternalGameParser extends AbstractInternalAntlrParser {
             // InternalGame.g:1835:4: (lv_taille_7_0= RULE_INT )
             // InternalGame.g:1836:5: lv_taille_7_0= RULE_INT
             {
-            lv_taille_7_0=(Token)match(input,RULE_INT,FOLLOW_54); 
+            lv_taille_7_0=(Token)match(input,RULE_INT,FOLLOW_53); 
 
             					newLeafNode(lv_taille_7_0, grammarAccess.getJoueurAccess().getTailleINTTerminalRuleCall_7_0());
             				
@@ -4374,18 +4373,18 @@ public class InternalGameParser extends AbstractInternalAntlrParser {
             int alt47=2;
             int LA47_0 = input.LA(1);
 
-            if ( (LA47_0==53) ) {
+            if ( (LA47_0==52) ) {
                 alt47=1;
             }
             switch (alt47) {
                 case 1 :
                     // InternalGame.g:1853:4: otherlv_8= 'commence' otherlv_9= 'avec' ( (lv_inventaire_10_0= ruleObjetTenu ) ) (otherlv_11= ',' ( (lv_inventaire_12_0= ruleObjetTenu ) ) )*
                     {
-                    otherlv_8=(Token)match(input,53,FOLLOW_55); 
+                    otherlv_8=(Token)match(input,52,FOLLOW_54); 
 
                     				newLeafNode(otherlv_8, grammarAccess.getJoueurAccess().getCommenceKeyword_8_0());
                     			
-                    otherlv_9=(Token)match(input,54,FOLLOW_3); 
+                    otherlv_9=(Token)match(input,53,FOLLOW_3); 
 
                     				newLeafNode(otherlv_9, grammarAccess.getJoueurAccess().getAvecKeyword_8_1());
                     			
@@ -4398,7 +4397,7 @@ public class InternalGameParser extends AbstractInternalAntlrParser {
 
                     						newCompositeNode(grammarAccess.getJoueurAccess().getInventaireObjetTenuParserRuleCall_8_2_0());
                     					
-                    pushFollow(FOLLOW_56);
+                    pushFollow(FOLLOW_55);
                     lv_inventaire_10_0=ruleObjetTenu();
 
                     state._fsp--;
@@ -4448,7 +4447,7 @@ public class InternalGameParser extends AbstractInternalAntlrParser {
 
                     	    							newCompositeNode(grammarAccess.getJoueurAccess().getInventaireObjetTenuParserRuleCall_8_3_1_0());
                     	    						
-                    	    pushFollow(FOLLOW_56);
+                    	    pushFollow(FOLLOW_55);
                     	    lv_inventaire_12_0=ruleObjetTenu();
 
                     	    state._fsp--;
@@ -4489,22 +4488,22 @@ public class InternalGameParser extends AbstractInternalAntlrParser {
             int alt49=2;
             int LA49_0 = input.LA(1);
 
-            if ( (LA49_0==55) ) {
+            if ( (LA49_0==54) ) {
                 alt49=1;
             }
             switch (alt49) {
                 case 1 :
                     // InternalGame.g:1907:4: otherlv_13= 'connaissances' otherlv_14= 'commence' otherlv_15= 'avec' ( (otherlv_16= RULE_ID ) ) (otherlv_17= ',' ( (otherlv_18= RULE_ID ) ) )*
                     {
-                    otherlv_13=(Token)match(input,55,FOLLOW_57); 
+                    otherlv_13=(Token)match(input,54,FOLLOW_56); 
 
                     				newLeafNode(otherlv_13, grammarAccess.getJoueurAccess().getConnaissancesKeyword_9_0());
                     			
-                    otherlv_14=(Token)match(input,53,FOLLOW_55); 
+                    otherlv_14=(Token)match(input,52,FOLLOW_54); 
 
                     				newLeafNode(otherlv_14, grammarAccess.getJoueurAccess().getCommenceKeyword_9_1());
                     			
-                    otherlv_15=(Token)match(input,54,FOLLOW_3); 
+                    otherlv_15=(Token)match(input,53,FOLLOW_3); 
 
                     				newLeafNode(otherlv_15, grammarAccess.getJoueurAccess().getAvecKeyword_9_2());
                     			
@@ -4625,17 +4624,17 @@ public class InternalGameParser extends AbstractInternalAntlrParser {
             // InternalGame.g:1963:2: ( (enumLiteral_0= 'debut' ) | (enumLiteral_1= 'fin' ) | (enumLiteral_2= 'intermediaire' ) )
             int alt50=3;
             switch ( input.LA(1) ) {
-            case 56:
+            case 55:
                 {
                 alt50=1;
                 }
                 break;
-            case 57:
+            case 56:
                 {
                 alt50=2;
                 }
                 break;
-            case 58:
+            case 57:
                 {
                 alt50=3;
                 }
@@ -4654,7 +4653,7 @@ public class InternalGameParser extends AbstractInternalAntlrParser {
                     // InternalGame.g:1964:3: (enumLiteral_0= 'debut' )
                     // InternalGame.g:1965:4: enumLiteral_0= 'debut'
                     {
-                    enumLiteral_0=(Token)match(input,56,FOLLOW_2); 
+                    enumLiteral_0=(Token)match(input,55,FOLLOW_2); 
 
                     				current = grammarAccess.getTypePlaceAccess().getDebutEnumLiteralDeclaration_0().getEnumLiteral().getInstance();
                     				newLeafNode(enumLiteral_0, grammarAccess.getTypePlaceAccess().getDebutEnumLiteralDeclaration_0());
@@ -4671,7 +4670,7 @@ public class InternalGameParser extends AbstractInternalAntlrParser {
                     // InternalGame.g:1972:3: (enumLiteral_1= 'fin' )
                     // InternalGame.g:1973:4: enumLiteral_1= 'fin'
                     {
-                    enumLiteral_1=(Token)match(input,57,FOLLOW_2); 
+                    enumLiteral_1=(Token)match(input,56,FOLLOW_2); 
 
                     				current = grammarAccess.getTypePlaceAccess().getFinEnumLiteralDeclaration_1().getEnumLiteral().getInstance();
                     				newLeafNode(enumLiteral_1, grammarAccess.getTypePlaceAccess().getFinEnumLiteralDeclaration_1());
@@ -4688,7 +4687,7 @@ public class InternalGameParser extends AbstractInternalAntlrParser {
                     // InternalGame.g:1980:3: (enumLiteral_2= 'intermediaire' )
                     // InternalGame.g:1981:4: enumLiteral_2= 'intermediaire'
                     {
-                    enumLiteral_2=(Token)match(input,58,FOLLOW_2); 
+                    enumLiteral_2=(Token)match(input,57,FOLLOW_2); 
 
                     				current = grammarAccess.getTypePlaceAccess().getIntermediaireEnumLiteralDeclaration_2().getEnumLiteral().getInstance();
                     				newLeafNode(enumLiteral_2, grammarAccess.getTypePlaceAccess().getIntermediaireEnumLiteralDeclaration_2());
@@ -4760,7 +4759,7 @@ public class InternalGameParser extends AbstractInternalAntlrParser {
     public static final BitSet FOLLOW_33 = new BitSet(new long[]{0x0000002000000000L});
     public static final BitSet FOLLOW_34 = new BitSet(new long[]{0x0000004000000000L});
     public static final BitSet FOLLOW_35 = new BitSet(new long[]{0x0000000000004040L});
-    public static final BitSet FOLLOW_36 = new BitSet(new long[]{0x0700000000000000L});
+    public static final BitSet FOLLOW_36 = new BitSet(new long[]{0x0380000000000000L});
     public static final BitSet FOLLOW_37 = new BitSet(new long[]{0x0000008000000002L});
     public static final BitSet FOLLOW_38 = new BitSet(new long[]{0x00000D0008000000L});
     public static final BitSet FOLLOW_39 = new BitSet(new long[]{0x0000020001000000L});
@@ -4777,10 +4776,9 @@ public class InternalGameParser extends AbstractInternalAntlrParser {
     public static final BitSet FOLLOW_50 = new BitSet(new long[]{0x0004200000400002L});
     public static final BitSet FOLLOW_51 = new BitSet(new long[]{0x0004000001400002L});
     public static final BitSet FOLLOW_52 = new BitSet(new long[]{0x0008000000000000L});
-    public static final BitSet FOLLOW_53 = new BitSet(new long[]{0x0010000000000000L});
-    public static final BitSet FOLLOW_54 = new BitSet(new long[]{0x00A0000000000002L});
-    public static final BitSet FOLLOW_55 = new BitSet(new long[]{0x0040000000000000L});
-    public static final BitSet FOLLOW_56 = new BitSet(new long[]{0x0080000001000002L});
-    public static final BitSet FOLLOW_57 = new BitSet(new long[]{0x0020000000000000L});
+    public static final BitSet FOLLOW_53 = new BitSet(new long[]{0x0050000000000002L});
+    public static final BitSet FOLLOW_54 = new BitSet(new long[]{0x0020000000000000L});
+    public static final BitSet FOLLOW_55 = new BitSet(new long[]{0x0040000001000002L});
+    public static final BitSet FOLLOW_56 = new BitSet(new long[]{0x0010000000000000L});
 
 }

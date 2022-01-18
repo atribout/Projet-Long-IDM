@@ -22,7 +22,7 @@ import java.util.ArrayList;
 @SuppressWarnings("all")
 public class InternalGameParser extends AbstractInternalContentAssistParser {
     public static final String[] tokenNames = new String[] {
-        "<invalid>", "<EOR>", "<DOWN>", "<UP>", "RULE_ID", "RULE_INT", "RULE_STRING", "RULE_ML_COMMENT", "RULE_SL_COMMENT", "RULE_WS", "RULE_ANY_OTHER", "'debut'", "'fin'", "'intermediaire'", "'jeu'", "'Connaissances'", "'{'", "'}'", "'Objets'", "'PNJs'", "'Actions'", "'Conditions'", "'Lieux'", "'Chemins'", "'Joueur'", "'visible'", "'si'", "','", "'('", "'taille'", "')'", "'*'", "'est'", "'joueur'", "'possede'", "'objet:'", "'connaissance:'", "'situe'", "'en'", "'et'", "'dialogue'", "'contient ('", "'PNJs:'", "';'", "'objets:'", "'connaissances:'", "'propose'", "'implique'", "'consomme'", "'donne'", "'depuis'", "'jusqu\\'\\u00E0'", "'ouvert'", "'if'", "'inventaire'", "'commence'", "'avec'", "'connaissances'", "'pas'"
+        "<invalid>", "<EOR>", "<DOWN>", "<UP>", "RULE_ID", "RULE_INT", "RULE_STRING", "RULE_ML_COMMENT", "RULE_SL_COMMENT", "RULE_WS", "RULE_ANY_OTHER", "'debut'", "'fin'", "'intermediaire'", "'jeu'", "'Connaissances'", "'{'", "'}'", "'Objets'", "'PNJs'", "'Actions'", "'Conditions'", "'Lieux'", "'Chemins'", "'Joueur'", "'visible'", "'si'", "','", "'('", "'taille'", "')'", "'*'", "'est'", "'joueur'", "'possede'", "'objet:'", "'connaissance:'", "'situe'", "'en'", "'et'", "'dialogue'", "'contient ('", "'PNJs:'", "';'", "'objets:'", "'connaissances:'", "'propose'", "'implique'", "'consomme'", "'donne'", "'depuis'", "'jusqu\\'\\u00E0'", "'ouvert'", "'inventaire'", "'commence'", "'avec'", "'connaissances'", "'pas'"
     };
     public static final int T__50=50;
     public static final int T__19=19;
@@ -37,7 +37,6 @@ public class InternalGameParser extends AbstractInternalContentAssistParser {
     public static final int T__13=13;
     public static final int T__57=57;
     public static final int T__14=14;
-    public static final int T__58=58;
     public static final int T__51=51;
     public static final int T__52=52;
     public static final int T__53=53;
@@ -1174,7 +1173,7 @@ public class InternalGameParser extends AbstractInternalContentAssistParser {
             // InternalGame.g:397:1: ( ( ( rule__Condition__Group_5_0__0 ) ) | ( ( rule__Condition__Group_5_1__0 ) ) )
             int alt1=2;
             switch ( input.LA(1) ) {
-            case 58:
+            case 57:
                 {
                 int LA1_1 = input.LA(2);
 
@@ -6195,7 +6194,7 @@ public class InternalGameParser extends AbstractInternalContentAssistParser {
                     if ( (LA14_2==RULE_ID) ) {
                         int LA14_3 = input.LA(3);
 
-                        if ( (LA14_3==EOF||LA14_3==RULE_ID||LA14_3==17||LA14_3==27||LA14_3==30||LA14_3==43||LA14_3==45||LA14_3==49||LA14_3==57) ) {
+                        if ( (LA14_3==EOF||LA14_3==RULE_ID||LA14_3==17||LA14_3==27||LA14_3==30||LA14_3==43||LA14_3==45||LA14_3==49||LA14_3==56) ) {
                             alt14=1;
                         }
 
@@ -6997,7 +6996,7 @@ public class InternalGameParser extends AbstractInternalContentAssistParser {
             int alt15=2;
             int LA15_0 = input.LA(1);
 
-            if ( (LA15_0==58) ) {
+            if ( (LA15_0==57) ) {
                 alt15=1;
             }
             switch (alt15) {
@@ -7248,7 +7247,7 @@ public class InternalGameParser extends AbstractInternalContentAssistParser {
             int alt16=2;
             int LA16_0 = input.LA(1);
 
-            if ( (LA16_0==58) ) {
+            if ( (LA16_0==57) ) {
                 alt16=1;
             }
             switch (alt16) {
@@ -16592,7 +16591,7 @@ public class InternalGameParser extends AbstractInternalContentAssistParser {
             // InternalGame.g:5404:1: ( rule__Chemin__Group_6__0__Impl rule__Chemin__Group_6__1 )
             // InternalGame.g:5405:2: rule__Chemin__Group_6__0__Impl rule__Chemin__Group_6__1
             {
-            pushFollow(FOLLOW_50);
+            pushFollow(FOLLOW_21);
             rule__Chemin__Group_6__0__Impl();
 
             state._fsp--;
@@ -16696,21 +16695,21 @@ public class InternalGameParser extends AbstractInternalContentAssistParser {
 
 
     // $ANTLR start "rule__Chemin__Group_6__1__Impl"
-    // InternalGame.g:5439:1: rule__Chemin__Group_6__1__Impl : ( 'if' ) ;
+    // InternalGame.g:5439:1: rule__Chemin__Group_6__1__Impl : ( 'si' ) ;
     public final void rule__Chemin__Group_6__1__Impl() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalGame.g:5443:1: ( ( 'if' ) )
-            // InternalGame.g:5444:1: ( 'if' )
+            // InternalGame.g:5443:1: ( ( 'si' ) )
+            // InternalGame.g:5444:1: ( 'si' )
             {
-            // InternalGame.g:5444:1: ( 'if' )
-            // InternalGame.g:5445:2: 'if'
+            // InternalGame.g:5444:1: ( 'si' )
+            // InternalGame.g:5445:2: 'si'
             {
-             before(grammarAccess.getCheminAccess().getIfKeyword_6_1()); 
-            match(input,53,FOLLOW_2); 
-             after(grammarAccess.getCheminAccess().getIfKeyword_6_1()); 
+             before(grammarAccess.getCheminAccess().getSiKeyword_6_1()); 
+            match(input,26,FOLLOW_2); 
+             after(grammarAccess.getCheminAccess().getSiKeyword_6_1()); 
 
             }
 
@@ -17400,7 +17399,7 @@ public class InternalGameParser extends AbstractInternalContentAssistParser {
             // InternalGame.g:5674:1: ( rule__Joueur__Group__4__Impl rule__Joueur__Group__5 )
             // InternalGame.g:5675:2: rule__Joueur__Group__4__Impl rule__Joueur__Group__5
             {
-            pushFollow(FOLLOW_51);
+            pushFollow(FOLLOW_50);
             rule__Joueur__Group__4__Impl();
 
             state._fsp--;
@@ -17517,7 +17516,7 @@ public class InternalGameParser extends AbstractInternalContentAssistParser {
             // InternalGame.g:5715:2: 'inventaire'
             {
              before(grammarAccess.getJoueurAccess().getInventaireKeyword_5()); 
-            match(input,54,FOLLOW_2); 
+            match(input,53,FOLLOW_2); 
              after(grammarAccess.getJoueurAccess().getInventaireKeyword_5()); 
 
             }
@@ -17625,7 +17624,7 @@ public class InternalGameParser extends AbstractInternalContentAssistParser {
             // InternalGame.g:5755:1: ( rule__Joueur__Group__7__Impl rule__Joueur__Group__8 )
             // InternalGame.g:5756:2: rule__Joueur__Group__7__Impl rule__Joueur__Group__8
             {
-            pushFollow(FOLLOW_52);
+            pushFollow(FOLLOW_51);
             rule__Joueur__Group__7__Impl();
 
             state._fsp--;
@@ -17710,7 +17709,7 @@ public class InternalGameParser extends AbstractInternalContentAssistParser {
             // InternalGame.g:5782:1: ( rule__Joueur__Group__8__Impl rule__Joueur__Group__9 )
             // InternalGame.g:5783:2: rule__Joueur__Group__8__Impl rule__Joueur__Group__9
             {
-            pushFollow(FOLLOW_52);
+            pushFollow(FOLLOW_51);
             rule__Joueur__Group__8__Impl();
 
             state._fsp--;
@@ -17756,7 +17755,7 @@ public class InternalGameParser extends AbstractInternalContentAssistParser {
             int alt47=2;
             int LA47_0 = input.LA(1);
 
-            if ( (LA47_0==55) ) {
+            if ( (LA47_0==54) ) {
                 alt47=1;
             }
             switch (alt47) {
@@ -17847,7 +17846,7 @@ public class InternalGameParser extends AbstractInternalContentAssistParser {
             int alt48=2;
             int LA48_0 = input.LA(1);
 
-            if ( (LA48_0==57) ) {
+            if ( (LA48_0==56) ) {
                 alt48=1;
             }
             switch (alt48) {
@@ -17897,7 +17896,7 @@ public class InternalGameParser extends AbstractInternalContentAssistParser {
             // InternalGame.g:5836:1: ( rule__Joueur__Group_8__0__Impl rule__Joueur__Group_8__1 )
             // InternalGame.g:5837:2: rule__Joueur__Group_8__0__Impl rule__Joueur__Group_8__1
             {
-            pushFollow(FOLLOW_53);
+            pushFollow(FOLLOW_52);
             rule__Joueur__Group_8__0__Impl();
 
             state._fsp--;
@@ -17939,7 +17938,7 @@ public class InternalGameParser extends AbstractInternalContentAssistParser {
             // InternalGame.g:5850:2: 'commence'
             {
              before(grammarAccess.getJoueurAccess().getCommenceKeyword_8_0()); 
-            match(input,55,FOLLOW_2); 
+            match(input,54,FOLLOW_2); 
              after(grammarAccess.getJoueurAccess().getCommenceKeyword_8_0()); 
 
             }
@@ -18014,7 +18013,7 @@ public class InternalGameParser extends AbstractInternalContentAssistParser {
             // InternalGame.g:5877:2: 'avec'
             {
              before(grammarAccess.getJoueurAccess().getAvecKeyword_8_1()); 
-            match(input,56,FOLLOW_2); 
+            match(input,55,FOLLOW_2); 
              after(grammarAccess.getJoueurAccess().getAvecKeyword_8_1()); 
 
             }
@@ -18385,7 +18384,7 @@ public class InternalGameParser extends AbstractInternalContentAssistParser {
             // InternalGame.g:5998:1: ( rule__Joueur__Group_9__0__Impl rule__Joueur__Group_9__1 )
             // InternalGame.g:5999:2: rule__Joueur__Group_9__0__Impl rule__Joueur__Group_9__1
             {
-            pushFollow(FOLLOW_54);
+            pushFollow(FOLLOW_53);
             rule__Joueur__Group_9__0__Impl();
 
             state._fsp--;
@@ -18427,7 +18426,7 @@ public class InternalGameParser extends AbstractInternalContentAssistParser {
             // InternalGame.g:6012:2: 'connaissances'
             {
              before(grammarAccess.getJoueurAccess().getConnaissancesKeyword_9_0()); 
-            match(input,57,FOLLOW_2); 
+            match(input,56,FOLLOW_2); 
              after(grammarAccess.getJoueurAccess().getConnaissancesKeyword_9_0()); 
 
             }
@@ -18460,7 +18459,7 @@ public class InternalGameParser extends AbstractInternalContentAssistParser {
             // InternalGame.g:6025:1: ( rule__Joueur__Group_9__1__Impl rule__Joueur__Group_9__2 )
             // InternalGame.g:6026:2: rule__Joueur__Group_9__1__Impl rule__Joueur__Group_9__2
             {
-            pushFollow(FOLLOW_53);
+            pushFollow(FOLLOW_52);
             rule__Joueur__Group_9__1__Impl();
 
             state._fsp--;
@@ -18502,7 +18501,7 @@ public class InternalGameParser extends AbstractInternalContentAssistParser {
             // InternalGame.g:6039:2: 'commence'
             {
              before(grammarAccess.getJoueurAccess().getCommenceKeyword_9_1()); 
-            match(input,55,FOLLOW_2); 
+            match(input,54,FOLLOW_2); 
              after(grammarAccess.getJoueurAccess().getCommenceKeyword_9_1()); 
 
             }
@@ -18577,7 +18576,7 @@ public class InternalGameParser extends AbstractInternalContentAssistParser {
             // InternalGame.g:6066:2: 'avec'
             {
              before(grammarAccess.getJoueurAccess().getAvecKeyword_9_2()); 
-            match(input,56,FOLLOW_2); 
+            match(input,55,FOLLOW_2); 
              after(grammarAccess.getJoueurAccess().getAvecKeyword_9_2()); 
 
             }
@@ -19768,7 +19767,7 @@ public class InternalGameParser extends AbstractInternalContentAssistParser {
             // InternalGame.g:6511:4: 'pas'
             {
              before(grammarAccess.getConditionAccess().getNegationPasKeyword_5_0_0_0()); 
-            match(input,58,FOLLOW_2); 
+            match(input,57,FOLLOW_2); 
              after(grammarAccess.getConditionAccess().getNegationPasKeyword_5_0_0_0()); 
 
             }
@@ -19854,7 +19853,7 @@ public class InternalGameParser extends AbstractInternalContentAssistParser {
             // InternalGame.g:6545:4: 'pas'
             {
              before(grammarAccess.getConditionAccess().getNegationPasKeyword_5_1_0_0()); 
-            match(input,58,FOLLOW_2); 
+            match(input,57,FOLLOW_2); 
              after(grammarAccess.getConditionAccess().getNegationPasKeyword_5_1_0_0()); 
 
             }
@@ -21833,8 +21832,8 @@ public class InternalGameParser extends AbstractInternalContentAssistParser {
     public static final BitSet FOLLOW_29 = new BitSet(new long[]{0x0000000200000000L});
     public static final BitSet FOLLOW_30 = new BitSet(new long[]{0x0000000400000000L});
     public static final BitSet FOLLOW_31 = new BitSet(new long[]{0x0000000010000000L});
-    public static final BitSet FOLLOW_32 = new BitSet(new long[]{0x0400001800000000L});
-    public static final BitSet FOLLOW_33 = new BitSet(new long[]{0x0400000800000000L});
+    public static final BitSet FOLLOW_32 = new BitSet(new long[]{0x0200001800000000L});
+    public static final BitSet FOLLOW_33 = new BitSet(new long[]{0x0200000800000000L});
     public static final BitSet FOLLOW_34 = new BitSet(new long[]{0x0000002000000000L});
     public static final BitSet FOLLOW_35 = new BitSet(new long[]{0x0000004000000000L});
     public static final BitSet FOLLOW_36 = new BitSet(new long[]{0x0000008000000000L});
@@ -21852,9 +21851,8 @@ public class InternalGameParser extends AbstractInternalContentAssistParser {
     public static final BitSet FOLLOW_48 = new BitSet(new long[]{0x0008000000000000L});
     public static final BitSet FOLLOW_49 = new BitSet(new long[]{0x0010800002000000L});
     public static final BitSet FOLLOW_50 = new BitSet(new long[]{0x0020000000000000L});
-    public static final BitSet FOLLOW_51 = new BitSet(new long[]{0x0040000000000000L});
-    public static final BitSet FOLLOW_52 = new BitSet(new long[]{0x0280000000000000L});
-    public static final BitSet FOLLOW_53 = new BitSet(new long[]{0x0100000000000000L});
-    public static final BitSet FOLLOW_54 = new BitSet(new long[]{0x0080000000000000L});
+    public static final BitSet FOLLOW_51 = new BitSet(new long[]{0x0140000000000000L});
+    public static final BitSet FOLLOW_52 = new BitSet(new long[]{0x0080000000000000L});
+    public static final BitSet FOLLOW_53 = new BitSet(new long[]{0x0040000000000000L});
 
 }

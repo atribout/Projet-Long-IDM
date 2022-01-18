@@ -1652,9 +1652,9 @@ ruleChemin returns [EObject current=null]
 			{
 				newLeafNode(otherlv_13, grammarAccess.getCheminAccess().getVisibleKeyword_6_0());
 			}
-			otherlv_14='if'
+			otherlv_14='si'
 			{
-				newLeafNode(otherlv_14, grammarAccess.getCheminAccess().getIfKeyword_6_1());
+				newLeafNode(otherlv_14, grammarAccess.getCheminAccess().getSiKeyword_6_1());
 			}
 			(
 				(

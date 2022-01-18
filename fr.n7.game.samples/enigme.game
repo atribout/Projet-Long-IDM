@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<game:Jeu xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:game="http://www.n7.fr/xtext/Game">
+  <jeuElements xsi:type="game:JeuElement"/>
+  <jeuElements xsi:type="game:Lieu" name="Enigme">
+    <pnjs conditionsVisibilite="//@jeuElements.11" name="Sphinx" lieu="//@jeuElements.1">
+      <dialogue texte="Question">
+        <reponses texte="MauvaiseReponse" actions="//@jeuElements.12"/>
+        <reponses texte="ReponsePossible" actions="//@jeuElements.13"/>
+      </dialogue>
+    </pnjs>
+  </jeuElements>
+  <jeuElements xsi:type="game:Lieu" name="Succes" type="fin" connaissances="//@jeuElements.8"/>
+  <jeuElements xsi:type="game:Lieu" name="Echec" type="fin"/>
+  <jeuElements xsi:type="game:Chemin" conditionsVisibilite="//@jeuElements.9" lieu1="//@jeuElements.1" lieu2="//@jeuElements.2"/>
+  <jeuElements xsi:type="game:Chemin" conditionsVisibilite="//@jeuElements.10" lieu1="//@jeuElements.1" lieu2="//@jeuElements.3"/>
+  <jeuElements xsi:type="game:Joueur" name="Explorateur" lieu="//@jeuElements.1">
+    <inventaire objet="//@jeuElements.7" quantite="3"/>
+  </jeuElements>
+  <jeuElements xsi:type="game:Objet" name="Tentative" taille="1" quantite="1"/>
+  <jeuElements xsi:type="game:Connaissance" name="Réussite"/>
+  <jeuElements xsi:type="game:Condition" name="EnigmeTrouvee" connaissance="//@jeuElements.8"/>
+  <jeuElements xsi:type="game:Condition" name="ZeroTentative">
+    <objet objet="//@jeuElements.7"/>
+  </jeuElements>
+  <jeuElements xsi:type="game:Condition" name="SphinxVisible" negation="true" connaissance="//@jeuElements.8">
+    <objet objet="//@jeuElements.7" quantite="1"/>
+  </jeuElements>
+  <jeuElements xsi:type="game:Action" name="MauvaiseReponse">
+    <objetsConsommes objet="//@jeuElements.7" quantite="-1"/>
+  </jeuElements>
+  <jeuElements xsi:type="game:Action" name="ReponsePossible">
+    <ObjetDonnes objet="//@jeuElements.7"/>
+  </jeuElements>
+</game:Jeu>

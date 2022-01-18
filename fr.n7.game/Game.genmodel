@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<genmodel:GenModel xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore"
+    xmlns:genmodel="http://www.eclipse.org/emf/2002/GenModel" modelDirectory="/fr.n7.game/src" modelPluginID="fr.n7.game" modelName="Game"
+    rootExtendsClass="org.eclipse.emf.ecore.impl.MinimalEObjectImpl$Container" importerID="org.eclipse.emf.importer.ecore"
+    complianceLevel="5.0" copyrightFields="false" operationReflection="true" importOrganizing="true">
+  <foreignModel>Game.ecore</foreignModel>
+  <genPackages prefix="Game" disposableProviderFactory="true" ecorePackage="Game.ecore#/">
+    <genEnums typeSafeEnumCompatible="false" ecoreEnum="Game.ecore#//typePlace">
+      <genEnumLiterals ecoreEnumLiteral="Game.ecore#//typePlace/debut"/>
+      <genEnumLiterals ecoreEnumLiteral="Game.ecore#//typePlace/fin"/>
+      <genEnumLiterals ecoreEnumLiteral="Game.ecore#//typePlace/intermediaire"/>
+    </genEnums>
+    <genClasses ecoreClass="Game.ecore#//Jeu">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Game.ecore#//Jeu/name"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference Game.ecore#//Jeu/jeuElements"/>
+    </genClasses>
+    <genClasses ecoreClass="Game.ecore#//Connaissance">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Game.ecore#//Connaissance/name"/>
+    </genClasses>
+    <genClasses ecoreClass="Game.ecore#//Objet">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Game.ecore#//Objet/name"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Game.ecore#//Objet/taille"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Game.ecore#//Objet/quantite"/>
+    </genClasses>
+    <genClasses ecoreClass="Game.ecore#//ObjetTenu">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference Game.ecore#//ObjetTenu/objet"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Game.ecore#//ObjetTenu/quantite"/>
+    </genClasses>
+    <genClasses ecoreClass="Game.ecore#//Condition">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Game.ecore#//Condition/name"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Game.ecore#//Condition/negation"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference Game.ecore#//Condition/objet"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference Game.ecore#//Condition/connaissance"/>
+    </genClasses>
+    <genClasses ecoreClass="Game.ecore#//PNJ">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Game.ecore#//PNJ/name"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference Game.ecore#//PNJ/lieu"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference Game.ecore#//PNJ/dialogue"/>
+    </genClasses>
+    <genClasses ecoreClass="Game.ecore#//Lieu">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Game.ecore#//Lieu/name"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Game.ecore#//Lieu/type"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference Game.ecore#//Lieu/pnjs"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference Game.ecore#//Lieu/objets"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference Game.ecore#//Lieu/connaissances"/>
+    </genClasses>
+    <genClasses ecoreClass="Game.ecore#//Dialogue">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Game.ecore#//Dialogue/texte"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference Game.ecore#//Dialogue/reponses"/>
+    </genClasses>
+    <genClasses ecoreClass="Game.ecore#//Choix">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Game.ecore#//Choix/texte"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference Game.ecore#//Choix/actions"/>
+    </genClasses>
+    <genClasses ecoreClass="Game.ecore#//Action">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Game.ecore#//Action/name"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference Game.ecore#//Action/objetsConsommes"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference Game.ecore#//Action/ObjetDonnes"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference Game.ecore#//Action/objetsDonnes"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference Game.ecore#//Action/connaissances"/>
+    </genClasses>
+    <genClasses ecoreClass="Game.ecore#//Chemin">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference Game.ecore#//Chemin/lieu1"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference Game.ecore#//Chemin/lieu2"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference Game.ecore#//Chemin/actions"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference Game.ecore#//Chemin/conditionsOuverture"/>
+    </genClasses>
+    <genClasses ecoreClass="Game.ecore#//Conditionnel">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference Game.ecore#//Conditionnel/conditionsVisibilite"/>
+    </genClasses>
+    <genClasses ecoreClass="Game.ecore#//Joueur">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Game.ecore#//Joueur/name"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference Game.ecore#//Joueur/lieu"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Game.ecore#//Joueur/taille"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference Game.ecore#//Joueur/inventaire"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference Game.ecore#//Joueur/connaissances"/>
+    </genClasses>
+    <genClasses ecoreClass="Game.ecore#//JeuElement"/>
+  </genPackages>
+</genmodel:GenModel>
