@@ -1,0 +1,36 @@
+p 635.0 475.0 Lieu_Enigme 1 n
+p 640.0 140.0 Rep_Sphinx 0 n
+t 615.0 295.0 Dlg_Sphinx 0 w n
+t 935.0 40.0 Reponse_Fausse 0 w n
+t 775.0 155.0 Reponse_Fausse_fin 0 w n
+p 960.0 280.0 Obj_Tentatives 3 n
+t 975.0 500.0 Chm_Echec 0 w n
+p 1235.0 525.0 Lieu_Echec 0 n
+t 350.0 25.0 Bonne_Reponse 0 w n
+p 125.0 65.0 Conn_Reussite 0 n
+t 310.0 460.0 Chm_Succes 0 w n
+p 50.0 475.0 Lieu_Succes 0 n
+e Obj_Tentatives Reponse_Fausse_fin ?-2 n
+e Obj_Tentatives Reponse_Fausse_fin 1 n
+e Rep_Sphinx Reponse_Fausse_fin 1 n
+e Reponse_Fausse Rep_Sphinx 1 n
+e Obj_Tentatives Reponse_Fausse ?2 n
+e Rep_Sphinx Reponse_Fausse 1 n
+e Obj_Tentatives Reponse_Fausse 1 n
+e Bonne_Reponse Conn_Reussite 1 n
+e Rep_Sphinx Bonne_Reponse 1 n
+e Chm_Echec Lieu_Echec 1 n
+e Obj_Tentatives Chm_Echec ?-1 n
+e Lieu_Enigme Chm_Echec 1 n
+e Dlg_Sphinx Rep_Sphinx 1 n
+e Conn_Reussite Dlg_Sphinx ?-1 n
+e Rep_Sphinx Dlg_Sphinx ?-1 n
+e Obj_Tentatives Dlg_Sphinx ?1 n
+e Lieu_Enigme Dlg_Sphinx ?1 n
+e Chm_Succes Lieu_Succes 1 n
+e Rep_Sphinx Chm_Succes ?-1 n
+e Conn_Reussite Chm_Succes ?1 n
+e Lieu_Enigme Chm_Succes 1 n
+h enigme_test
+
+
