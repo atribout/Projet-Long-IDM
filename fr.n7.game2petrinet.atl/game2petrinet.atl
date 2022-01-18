@@ -1,0 +1,474 @@
+module Game2PetriNet;
+create OUT: petrinet from  IN:Game;
+
+helper context Game!Objet
+--le joueur débute-il avec l'objet ?
+def: commenceAvec(): Boolean =
+	not Game!Joueur.allInstances()
+		->asSequence()->first().inventaire->select(po | po.oclIsKindOf(Game!ObjetTenu))
+		->select (po | po.objet = self)
+		->asSequence()->isEmpty();
+
+helper context Game!Connaissance
+--le joueur débute-il avec la connaissance ?
+def: commenceAvec(): Boolean =
+	not Game!JeuElement.allInstances()
+		->select(p | p.oclIsKindOf(Game!Joueur))
+		->asSequence()->first()
+		.inventaire->select(po | po.oclIsKindOf(Game!Connaissance))
+		->select (po | po.objet = self)
+		->asSequence()->isEmpty();
+
+helper context petrinet!PetriNetElement
+def: getPetriNet(): petrinet!PetriNet =
+	petrinet!PetriNet.allInstances()
+		->asSequence()->first();
+
+helper context Game!Objet	
+-- Nous donne combien le joueur à de fois un même objet
+def: quantInit(): Integer =
+	 Game!Joueur.allInstances()->first().inventory->select(po | po.oclIsKindOf(Game!ObjetTenu))
+		->select (po | po.objet = self)
+		->asSequence()->first().quantity;
+
+helper context Game!Objet	
+-- Retourne le lieu dans l'inventaire liée �  un objet
+def: getLieuInventaire(): petrinet!Lieu =
+	petrinet!Lieu.allInstances()
+	->select(p | p.name = 'Objet_Inventaire_' + self.name)
+	->asSequence()->first();
+
+
+helper context Game!Connaissance
+-- Retourne le lieu de l'inventaire liée à une connaissance
+def: getLieuInventaire(): petrinet!Lieu =
+	petrinet!Lieu.allInstances()
+	->select(p | p.name = 'Connaissance_Inventaire' + self.name)
+	->asSequence()->first();
+
+-- Aide à lier le dialogue avce son lieu
+helper context Game!Dialogue
+-- Donne le lieu du NPC d'un dialogue	
+def: getLieuOfNPCFromDialogue(): Game!Lieu =
+	 Game!NPC.allInstances()
+		->select(npc | npc.dialogue->asSequence()->includes(self))
+		->asSequence()->first().lieu; 
+		
+-- Aide à lier le dialogue avce son lieu		
+helper context Game!Lieu
+-- Retourne le lieu petri a partir d'un lieu jeu
+def: getLieuPetriFromLieuJeu(): petriNet!Lieu = 
+	petrinet!Lieu.allInstances()
+	->select(lieu | self.name = lieu.name)
+	->asSequence()->first();
+
+
+helper context Game!Choix
+-- Retourne le dialogue retour d'un choix
+def: getDialogue(): Game!Dialogue =
+	Game!Dialogue.allInstances()
+	->select(d | d.reponses->asSequence()->includes(self))
+	->asSequence()->first();
+
+helper context Game!Dialogue
+def: getLieuDuDialogue(): petrinet!Lieu =
+	petrinet!Lieu.allInstances()
+	->select(p | p.name = self.texte)
+	->asSequence()->first();
+
+
+helper context Game!Action
+-- Retourne la transaction liee a une action
+def: getChoixouCheminDeAction(): Game!JeuElement =
+	Game!JeuElement.allInstances()
+	->select(jeuel | (jeuel.oclIsKindOf(Game!Chemin) or gameel.oclIsKindOf(Game!Choix)))
+	->select(choixouChemin | choixouChemin.actions->asSequence()->includes(self))
+	->asSequence()->first();
+
+-- Retourne la Transition liee a un Chemin ou un choix (un element avec action)
+helper def: getTransitionDeCheminOuChoix(element : Game!JeuElement ): petrinet!Transition =
+	if element.oclIsKindOf(Game!Chemin) then
+		petrinet!Transition.allInstances()->select(t | t.name = element.lieu1.name + '_à_' + element.lieu2.name)
+		->asSequence()->first()
+	else -- donc choix, on retourne le texte lié
+		petrinet!Transition.allInstances()->select(t | t.name = element.texte)
+		->asSequence()->first()
+
+	endif;
+
+helper context Game!Conditionnel
+def: getTransitionDuConditionnel(transitions: Sequence(petrinet!Transition)): petrinet!Transition =
+	if self.oclIsKindOf(Game!Chemin) then
+		transitions->select(t | t.name = self.lieu1.name + '_à_' + self.lieu2.name)
+		->asSequence()->first()
+	else -- Alors c'est un choix, si c'est pas un Chemin
+		if self.oclIsKindOf(Game!Choix) then
+			transitions->select(t | t.name = self.texte)
+			->asSequence()->first()
+		else
+			if self.oclIsKindOf(Game!ObjetTenu) then
+			transitions->select(t | t.name = 'Objet_Inventaire_' + self.objet.name)
+			->asSequence()->first()
+			else
+				if self.oclIsKindOf(Game!Connaissance) then
+				transitions->select(t | t.name = 'Connaissance_Inventaire_' + self.name)
+				->asSequence()->first()
+				else
+					-- Derniere possibilit� : c'est  un dialogue
+					transitions->select(t | t.name = 'Engager_' + self.texte)
+					->asSequence()->first()
+					
+				endif
+					
+			endif
+					
+		endif
+				
+
+	endif;
+
+
+
+helper context Game!Condition
+def: getConditionLieu() : petrinet!Lieu = 
+	if not self.objet.oclIsUndefined() then
+		petrinet!Lieu.allInstances()
+		->select(p | p.name = 'Inventaire_Objet' + self.objet.objet.name)
+		->asSequence()->first()
+	else
+		petrinet!Lieu.allInstances()
+		->select(p | p.name = 'Inventaire_Connaissance_' + self.Connaissance.name)
+		->asSequence()->first()
+	endif;
+
+helper context Game!Condition
+-- On recupere tous les elements de Game qui utilisent cette conditiobb
+def: getUtilDeCond() : Sequence(Game!JeuElement) = 
+	Game!JeuElement.allInstances()
+	->select(el | el.oclIsKindOf(Game!ObjetTenu) or el.oclIsKindOf(Game!Chemin)  or el.oclIsKindOf(Game!Choix) or  el.oclIsKindOf(Game!Connaissance) or el.oclIsKindOf(Game!Dialogue))
+	->select(el | el.conditionsVisibilite->includes(self) or ( if el.oclIsKindOf(Game!Chemin) then  el.conditionsOuverture->includes(self) else false endif))
+	->asSequence();
+
+helper context Game!Condition
+def: getQuantiteCondition() : Integer = 
+	if not self.objet.oclIsUndefined() then
+		self.objet.quantity
+	else
+		1
+	endif;
+
+
+helper def: getLieuDeLieuEtObjets(Lieu: Game!Lieu, po : Game!ObjetTenu): petrinet!Lieu =
+	petrinet!Lieu.allInstances()
+	->select(p | p.name = 'Lieu_' + lieu.name +'_Objet_' + po.objet.name)
+	->asSequence()->first();
+
+helper def: getTransDeLieuEtObjets(Lieu: Game!Lieu, po : Game!ObjetTenu): petrinet!Transition =
+	petrinet!Transition.allInstances()
+	->select(p | p.name =  'Lieu_' + lieu.name +'_Prendre_' + po.objet.name)
+	->asSequence()->first();
+
+helper def: getTransitionFromLieuAndConnaissance(Lieu: Game!Lieu, cs : Game!Connaissance): petrinet!Transition =
+	petrinet!Transition.allInstances()
+	->select(p | p.name =  'Lieu_' + lieu.name +'_PrendreCs_' + cs.name)
+	->asSequence()->first();
+
+
+-- Traduire un Game en un PetriNet qui porte le meme nom
+
+rule Game2PetriNet {
+	from j: Game!Jeu
+	to pn: petrinet!PetriNet (name <- j.name )
+	
+	
+	do {
+		
+		pn.petrinetelements <- petrinet!PetriNetElement.allInstances()->asSequence();
+		
+	}
+}
+
+
+
+-- Traduire un Objet en un motif sur le reseau de Petri par rapport à son lieu
+rule Objet2Lieux {
+	from objet: Game!Objet
+	to
+		-- L'objet
+		p_objet: petrinet!Lieu(
+				name <- 'Objet_' + objet.name,
+				marking <- if objet.commenceAvec() then objet.quantity - objet.quantInit() else 0 endif),
+				
+				
+		-- L'objet dans l'inventaire du joueur
+		p_objet_inventaire: petrinet!Lieu(
+				name <- 'Inventaire_Objet' + objet.name,
+				marking <- if objet.commenceAvec() then objet.quantInit() else 0 endif)
+
+}
+
+
+-- Traduire une Lieu du jeu vers un  Lieu PetriNet
+rule Lieu2Lieu {
+	from Lieu: Game!Lieu
+	to
+	lieu_petri: petrinet!Lieu(
+		name <- lieu.name,
+		marking <- if lieu.type.toString() = 'debut' then 1 else 0 endif
+	),
+	
+	--  La transition pour prendre un des objets tenus
+	transitions_des_objets_tenus: distinct petrinet!Transition foreach (objet in lieu.objets) (
+	    name <- 'Lieu_' + lieu.name +'_Prendre_' + objet.objet.name
+	),
+	-- Le lieu qui indique le nombre d'objet disponible
+	Lieu_des_objets_tenus: distinct petrinet!Lieu foreach (objet in lieu.objets) (
+	    name <- 'Lieu_' + lieu.name +'_Object_' + objet.objet.name,
+		marking <- objet.quantity -- limite la quantite prenable
+	),
+	-- L'arc qui entre la quantite d'objet dispos et la transition
+	arcs_des_objets_tenus: distinct petrinet!Arc foreach (objet in lieu.objets) (
+	    lieu <- thisModule.getLieuDeLieuEtObjets(lieu, objet), -- Lieu des quantites
+		transition <- thisModule.getTransDeLieuEtObjets(lieu, objet) , -- transition de prendre l'objet
+		nature <- 'p2t',
+		weight <- 1 -- on les prend 1 par 1 si y'en a plusieurs
+	),
+	-- L'arc qui met l'objet dans l'inventaire
+	arcs_de_lieu_vers_inventaires: distinct petrinet!Arc foreach (objet in lieu.objets) (
+	    lieu <- objet.objet.getLieuInventaire(), -- lieu dans l'inventaire
+		transition <- thisModule.getTransDeLieuEtObjets(lieu, objet) , -- transition de prendre l'objet
+		nature <- 't2p',
+		weight <- 1 -- on les mets 1 par 1 si y'en a plusieurs
+	),
+	-- L'arc qui relie le lieu à la prise d'objet :
+	arcs_de_lieu_vers_prise_objets: distinct petrinet!Arc foreach (objet in Lieu.objets) (
+	    lieu <- lieu,
+		transition <- thisModule.getTransDeLieuEtObjets(lieu, objet) , 
+		nature <- 'p2t',
+		weight <- 1 -- on les prend 1 par 1 si y'en a plusieurs
+	),
+		
+		
+	-- l'arc qui relie la prise d'objet au lieu
+		arcs_de_prise_objets_vers_lieu: distinct petrinet!Arc foreach (objet in Lieu.objets) (
+	    Lieu <- Lieu, -- Lieu des quantites
+		transition <- thisModule.getTransDeLieuEtObjets(Lieu, objet) , -- transition de prendre l'objet
+		nature <- 't2p',
+		weight <- 1 -- on remet 1 jeton dans le lieu
+	),
+	
+	transitions_des_Connaissances: distinct petrinet!Transition foreach (cs in Lieu.Connaissances) (
+	    name <- 'Lieu_' + Lieu.name +'_PrendreKn_' + cs.name
+	),
+	-- L'arc qui met la Connaissance dans l'inventaire
+	arcs_de_lieu_vers_prise_Connaissances: distinct petrinet!Arc foreach (cs in Lieu.Connaissances) (
+	    Lieu <- cs.getLieuInventaire(), -- Lieu des quantites
+		transition <- thisModule.getTransitionFromLieuAndConnaissance(Lieu, cs) , -- transition de prendre l'objet
+		nature <- 't2p',
+		weight <- 1 -- on les prend 1 par 1 si y'en a plusieurs
+	),
+		
+		
+	-- l'arc qui relie la prise de Connaissance au lieu
+		arcs_de_prise_Connaissance_vers_lieu: distinct petrinet!Arc foreach (cs in Lieu.Connaissances)  (
+	    Lieu <- Lieu, -- Lieu des quantites
+		transition <- thisModule.getTransitionFromLieuAndConnaissance(Lieu, cs) , -- transition de prendre l'objet
+		nature <- 't2p',
+		weight <- 1 -- on remet 1 jeton dans le lieu
+	),
+	-- L'arc qui relie le lieu � la prise de Connaissance :
+	arcs_de_lieu_vers_prise_cs: distinct petrinet!Arc foreach (cs in Lieu.Connaissances)  (
+	    Lieu <- Lieu, -- Lieu des quantites
+		transition <- thisModule.getTransitionFromLieuAndConnaissance(Lieu, cs) , -- transition de prendre l'objet
+		nature <- 'p2t',
+		weight <- 1 -- on les prend 1 par 1 si y'en a plusieurs
+	)
+}
+
+
+-- Traduire une Connaissance en un motif sur le reseau de Petri
+rule Connaissance2Lieux {
+	from connais: Game!Connaissance
+	to
+		-- L'objet
+		p_connaissance: petrinet!Lieu(
+				name <- 'Connaissance_' + connais.name,
+				marking <- 1),
+				
+				
+		-- L'objet dans l'inventaire du joueur
+		p_connaissance_inventaire: petrinet!Lieu(
+				name <- 'Inventaire_Connaissance_' + connais.name,
+				marking <- if connais.commenceAvec() then 1 else 0 endif)
+		
+}
+
+
+-- Traduire un Chemin du jeu, en Transition PetriNet
+rule Chemin2Transition {
+	from chemin: Game!Chemin
+	to
+	transition_Chemin: petrinet!Transition(
+		name <- chemin.lieu1.name + '_à_' + chemin.lieu2.name
+	),
+			
+	a_readyToStart: petrinet!Arc(
+		lieu <- chemin.lieu1,
+		transition <- transition_Chemin,
+		nature <- 'p2t',
+		weight <- 1
+	),
+	a_startToStarted: petrinet!Arc(
+		lieu <- chemin.lieu2,
+		transition <- transition_Chemin,
+		nature <- 't2p',
+		weight <- 1
+	),
+	
+	
+	
+	
+	arcs_verif_condition: distinct petrinet!Arc foreach (condition in Chemin.visibilityConditions) (
+	    lieu <- condition.getConditionLieu(),
+	    transition <- transition_Chemin,
+	    nature <- 'p2t',
+		weight <- condition.getQuantiteCondition()
+	),
+	arcs_rendu_verif_condition: distinct petrinet!Arc foreach (condition in Chemin.conditionsVisibilite) (
+	    lieu <- condition.getConditionLieu(),
+	    transition <- transition_Chemin,
+	    nature <- 't2p',
+		weight <- condition.getQuantiteCondition()
+	),
+	arcs_verif_condition_open: distinct petrinet!Arc foreach (condition in Chemin.conditionsOuverture) (
+	    lieu <- condition.getConditionLieu(),
+	    transition <- transition_Chemin,
+	    nature <- 'p2t',
+		weight <- condition.getQuantiteCondition()
+	),
+	arcs_rendu_verif_condition_open: distinct petrinet!Arc foreach (condition in chemin.conditionsOuverture) (
+	    lieu <- condition.getConditionLieu(),
+	    transition <- transition_Chemin,
+	    nature <- 't2p',
+		weight <- condition.getQuantiteCondition()
+	)
+	
+	
+}
+
+
+rule Dialogue2LieuEtTransition {
+	from dialogue: Game!Dialogue
+	to
+
+	Lieu_dialogue: petrinet!Lieu(
+		name <- dialogue.texte,
+		marking <- 0
+	),
+
+	engager_dialogue: petrinet!Transition(
+		name <- 'Engager_' + dialogue.texte
+	),
+	arc_engager_vers_dialogue: petrinet!Arc(
+		lieu <- Lieu_dialogue,
+		transition <- engager_dialogue,
+		nature <- 't2p',
+		weight <- 1
+	),
+	arc_lieu_vers_engager: petrinet!Arc(
+		lieu <- dialogue.getLieuOfNPCFromDialogue(),
+		transition <- engager_dialogue,
+		nature <- 'p2t',
+		weight <- 1
+	),
+
+	--  conditions de visibilité
+	
+	arcs_verif_condition: distinct petrinet!Arc foreach (condition in dialogue.conditionsVisibilite) (
+	    lieu <- condition.getConditionLieu(),
+	    transition <- engager_dialogue,
+	    nature <- 'p2t',
+		weight <-  if condition.negation then 0 else condition.getQuantiteCondition() endif
+	),
+	arcs_rendu_verif_condition: distinct petrinet!Arc foreach (condition in dialogue.conditionsVisibilite) (
+	    lieu <- condition.getConditionLieu(),
+	    transition <- engager_dialogue,
+	    nature <- 't2p',
+		weight <-  if condition.negation then 0 else condition.getQuantiteCondition() endif
+	)
+
+}
+
+rule Choix2LieuEtTransition {
+	from choix: Game!Choix
+	to
+	transition_du_choice: petrinet!Transition(
+		name <- choix.texte
+	),
+	transition_dialogue_vers_choix: petrinet!Arc(
+		lieu <- choix.getDialogue().getLieuOfDialogue(),
+		transition <- transition_du_choice,
+		nature <- 'p2t',
+		weight <- 1
+	),
+	
+	-- Il faut que le choix d'un dialogue soit relie a la Lieu dont provenait ce dialogue, c'est a dire qu'on revienne dans le lieu quand le dialogue est termine
+	transition_choix_vers_lieu_origine: petrinet!Arc(
+		lieu <- choix.getDialogue().getLieuOfNPCFromDialogue(),
+		transition <- transition_du_choice,
+		nature <- 't2p',
+		weight <- 1
+	),
+	
+	-- Conditions de visibilite
+	
+		arcs_verif_condition: distinct petrinet!Arc foreach (condition in choix.conditionsVisibilite) (
+	    lieu <- condition.getConditionLieu(),
+	    transition <- transition_du_choice,
+	    nature <- 'p2t',
+		weight <- if condition.negation then 0 else condition.getQuantiteCondition() endif
+	),
+	arcs_rendu_verif_condition: distinct petrinet!Arc foreach (condition in choix.visibilityConditions) (
+	    lieu <- condition.getConditionLieu(),
+	    transition <- transition_du_choice,
+	    nature <- 't2p',
+		weight <- if condition.negation then 0 else condition.getQuantiteCondition() endif
+	)
+
+}
+
+
+rule Action2LieuEtTransitions {
+	from action: Game!Action
+	to
+
+	-- TODO : Un arc par condition, Un arc par objet � donner
+	-- arcs des objets � donner
+		dons_objet_arcs: distinct petrinet!Arc foreach(obj in action.objetDonnes) (
+	    lieu <- obj.objet.getLieuInventaire(),
+	    transition <- thisModule.getTransitionDeCheminOuChoix(action.getChoixouCheminDeAction()),
+	    nature <- 't2p',
+		weight <- obj.quantity
+		),
+		
+		-- faire pareil pour Connaissance
+	
+		dons_Connaissance_arcs: distinct petrinet!Arc foreach(connaissance in action.connaissances) (
+	    lieu <- connaissance.getLieuInventaire(),
+	    transition <- thisModule.getTransitionDeCheminOuChoix(action.getChoixouCheminDeAction()),
+	    nature <- 't2p',
+		weight <- 1
+		),
+		
+		 -- On consomme ce que l'action doit consommer
+		 prise_objet_arcs: distinct petrinet!Arc foreach(obj in action.consumedObjects) (
+	    lieu <- obj.objet.getLieuInventaire(),
+	    transition <- thisModule.getTransitionDeCheminOuChoix(action.getChoixouCheminDeAction()),
+	    nature <- 'p2t',
+		weight <- obj.quantity
+		)
+		
+		-- tout objet donn� devrait �tre retir� des objets totaux
+		
+	
+}
