@@ -1,0 +1,7 @@
+op finished = Lieu_Succes_finale /\ Lieu_Echec_finale;
+<> finished; 
+
+
+op somme_pieces = Lieu_Enigme + Lieu_Succes_finale + Lieu_Echec_finale + Lieu_Cette question est-elle difficile ?;
+[] (somme_pieces = 1);
+
