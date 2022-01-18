@@ -20,6 +20,7 @@ def: commenceAvec(): Boolean =
 		->asSequence()->isEmpty();
 
 helper context petrinet!PetriNetElement
+--Nous donne le petrinet
 def: getPetriNet(): petrinet!PetriNet =
 	petrinet!PetriNet.allInstances()
 		->asSequence()->first();
@@ -27,12 +28,12 @@ def: getPetriNet(): petrinet!PetriNet =
 helper context Game!Objet	
 -- Nous donne combien le joueur à de fois un même objet
 def: quantInit(): Integer =
-	 Game!Joueur.allInstances()->first().inventory->select(po | po.oclIsKindOf(Game!ObjetTenu))
+	 Game!Joueur.allInstances()->first().inventaire->select(po | po.oclIsKindOf(Game!ObjetTenu))
 		->select (po | po.objet = self)
 		->asSequence()->first().quantity;
 
 helper context Game!Objet	
--- Retourne le lieu dans l'inventaire liée �  un objet
+-- Retourne le lieu dans l'inventaire liée à un objet
 def: getLieuInventaire(): petrinet!Lieu =
 	petrinet!Lieu.allInstances()
 	->select(p | p.name = 'Objet_Inventaire_' + self.name)
@@ -48,10 +49,10 @@ def: getLieuInventaire(): petrinet!Lieu =
 
 -- Aide à lier le dialogue avce son lieu
 helper context Game!Dialogue
--- Donne le lieu du NPC d'un dialogue	
-def: getLieuOfNPCFromDialogue(): Game!Lieu =
-	 Game!NPC.allInstances()
-		->select(npc | npc.dialogue->asSequence()->includes(self))
+-- Donne le lieu du PNJ d'un dialogue	
+def: getLieuOfPNJFromDialogue(): Game!Lieu =
+	 Game!PNJ.allInstances()
+		->select(pnj | pnj.dialogue->asSequence()->includes(self))
 		->asSequence()->first().lieu; 
 		
 -- Aide à lier le dialogue avce son lieu		
@@ -70,13 +71,6 @@ def: getDialogue(): Game!Dialogue =
 	->select(d | d.reponses->asSequence()->includes(self))
 	->asSequence()->first();
 
-helper context Game!Dialogue
-def: getLieuDuDialogue(): petrinet!Lieu =
-	petrinet!Lieu.allInstances()
-	->select(p | p.name = self.texte)
-	->asSequence()->first();
-
-
 helper context Game!Action
 -- Retourne la transaction liee a une action
 def: getChoixouCheminDeAction(): Game!JeuElement =
@@ -84,6 +78,14 @@ def: getChoixouCheminDeAction(): Game!JeuElement =
 	->select(jeuel | (jeuel.oclIsKindOf(Game!Chemin) or jeuel.oclIsKindOf(Game!Choix)))
 	->select(choixouChemin | choixouChemin.actions->asSequence()->includes(self))
 	->asSequence()->first();
+
+helper context Game!Dialogue
+def: getLieuDuDialogue(): petrinet!Lieu =
+	petrinet!Lieu.allInstances()
+	->select(p | p.name = self.texte)
+	->asSequence()->first();
+
+
 
 -- Retourne la Transition liee a un Chemin ou un choix (un element avec action)
 helper def: getTransitionDeCheminOuChoix(element : Game!JeuElement ): petrinet!Transition =
@@ -142,6 +144,14 @@ def: getConditionLieu() : petrinet!Lieu =
 	endif;
 
 helper context Game!Condition
+def: getQuantiteCondition() : Integer = 
+	if not self.objet.oclIsUndefined() then
+		self.objet.quantity
+	else
+		1
+	endif;
+
+helper context Game!Condition
 -- On recupere tous les elements de Game qui utilisent cette conditiobb
 def: getUtilDeCond() : Sequence(Game!JeuElement) = 
 	Game!JeuElement.allInstances()
@@ -149,13 +159,6 @@ def: getUtilDeCond() : Sequence(Game!JeuElement) =
 	->select(el | el.conditionsVisibilite->includes(self) or ( if el.oclIsKindOf(Game!Chemin) then  el.conditionsOuverture->includes(self) else false endif))
 	->asSequence();
 
-helper context Game!Condition
-def: getQuantiteCondition() : Integer = 
-	if not self.objet.oclIsUndefined() then
-		self.objet.quantity
-	else
-		1
-	endif;
 
 
 helper def: getLieuDeLieuEtObjets(lieu: Game!Lieu, po : Game!ObjetTenu): petrinet!Lieu =
@@ -216,7 +219,16 @@ rule Lieu2Lieu {
 		name <- lieu.name,
 		marking <- if lieu.type.toString() = 'debut' then 1 else 0 endif
 	),
+	-- utiliser un lazy ? 
+	--  La transition pour prendre un des objets tenus
+--lazy rule getTransObjTen{
+	--from objet : Game!Objet
 	
+--	to mb2: petrinet!Transition(
+--		name <- 'Lieu_' + lieu.name +'_Prendre_' + objet.objet.name-
+--	)
+--}
+			
 	--  La transition pour prendre un des objets tenus
 	transitions_des_objets_tenus: distinct petrinet!Transition foreach (objet in lieu.objets) (
 	    name <- 'Lieu_' + lieu.name +'_Prendre_' + objet.objet.name
@@ -328,7 +340,7 @@ rule Chemin2Transition {
 	
 	
 	
-	arcs_verif_condition: distinct petrinet!Arc foreach (condition in chemin.visibilityConditions) (
+	arcs_verif_condition: distinct petrinet!Arc foreach (condition in chemin.conditionsVisibilite) (
 	    lieu <- condition.getConditionLieu(),
 	    transition <- transition_Chemin,
 	    nature <- 'p2t',
@@ -376,7 +388,7 @@ rule Dialogue2LieuEtTransition {
 		weight <- 1
 	),
 	arc_lieu_vers_engager: petrinet!Arc(
-		lieu <- dialogue.getLieuOfNPCFromDialogue(),
+		lieu <- dialogue.getLieuOfPNJFromDialogue(),
 		transition <- engager_dialogue,
 		nature <- 'p2t',
 		weight <- 1
@@ -414,7 +426,7 @@ rule Choix2LieuEtTransition {
 	
 	-- Il faut que le choix d'un dialogue soit relie a la Lieu dont provenait ce dialogue, c'est a dire qu'on revienne dans le lieu quand le dialogue est termine
 	transition_choix_vers_lieu_origine: petrinet!Arc(
-		lieu <- choix.getDialogue().getLieuOfNPCFromDialogue(),
+		lieu <- choix.getDialogue().getLieuOfPNJFromDialogue(),
 		transition <- transition_du_choice,
 		nature <- 't2p',
 		weight <- 1
